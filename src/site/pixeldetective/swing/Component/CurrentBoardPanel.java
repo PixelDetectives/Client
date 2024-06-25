@@ -4,9 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class CurrentBoardPanel extends JPanel {
-    public int hit = 0;
-    public int miss = 0;
-    public int total = 0;
+
     public JLabel hitLabel;
     public JLabel missLabel;
     public JLabel totalLabel;
@@ -45,5 +43,11 @@ public class CurrentBoardPanel extends JPanel {
         totalLabel.setHorizontalAlignment(SwingConstants.CENTER);
         totalLabel.setFont(new Font("Arial", Font.PLAIN, 28));
         add(totalLabel);
+    }
+
+    public void updateLabel(int hits, int miss, int total) {
+        hitLabel.setText(hits + "");
+        missLabel.setText(miss + "");
+        totalLabel.setText(total + "");
     }
 }

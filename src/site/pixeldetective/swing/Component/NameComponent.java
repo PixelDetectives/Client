@@ -4,8 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class NameComponent extends JPanel {
-    private String name = "이름";
-    public NameComponent() {
+    public NameComponent(String name) {
         setBackground(Color.CYAN);
         setBorder(BorderFactory.createMatteBorder(10, 0, 0, 0, Color.BLACK));
         // JLabel 생성
@@ -23,7 +22,5 @@ public class NameComponent extends JPanel {
 
         // JLabel 추가
         add(nameLabel, gbc);
-
-
     }
 }

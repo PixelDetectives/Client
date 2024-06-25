@@ -25,7 +25,6 @@ public class GameBoardPanel extends JPanel {
         gbc.gridy = 0;
         add(this.tc, gbc);
 
-
         this.cbp = new CurrentBoardPanel();
         gbc.gridy = 1;
         add(this.cbp, gbc);
