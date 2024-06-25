@@ -1,7 +1,9 @@
 package site.pixeldetective.swing.Frame;
 
+import site.pixeldetective.swing.Panel.ChatPanel;
 import site.pixeldetective.swing.Panel.GameButtonPanel;
 import site.pixeldetective.swing.Panel.GameChoicePanel;
+import site.pixeldetective.swing.Panel.UserListPanel;
 import site.pixeldetective.swing.etc.Room;
 
 import javax.swing.*;
@@ -11,6 +13,9 @@ import java.util.ArrayList;
 public class LobbyFrame extends JFrame {
 
     JScrollPane scrollPane;
+    UserListPanel panel1;
+    ChatPanel panel2;
+    GameButtonPanel panel3;
     GameChoicePanel panel4;
     JPanel right;
     JPanel left;
@@ -19,34 +24,32 @@ public class LobbyFrame extends JFrame {
         setTitle("LobbyFrame");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1280, 720);
-        setLayout(new BorderLayout(0,0));
+        setLayout(null); // 절대 위치 배치로 변경
 
         left = new JPanel();
         left.setLayout(null); // 절대 위치 배치
-        left.setPreferredSize(new Dimension(535, 720)); // Preferred size
-        left.setSize(535, 720); // Actual size
+        left.setBounds(0, 0, 535, 720); // Absolute positioning
 
         right = new JPanel();
         right.setLayout(null); // 절대 위치 배치
-        right.setPreferredSize(new Dimension(745, 720)); // Preferred size
-        right.setSize(745, 720); // Actual size
+        right.setBounds(535, 0, 745, 720); // Absolute positioning
 
         // 패널 1 설정
-        JPanel panel1 = new JPanel();
+        panel1 = new UserListPanel();
         panel1.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        panel1.setBounds(20, 20, 505, 272); // 패널 크기 조정
+        panel1.setBounds(5, 5, 505, 272); // 패널 크기 조정
         left.add(panel1);
 
         // 패널 2 설정
-        JPanel panel2 = new JPanel();
+        panel2 = new ChatPanel();
         panel2.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        panel2.setBounds(20, 312, 505, 388); // 패널 2의 크기 조정
+        panel2.setBounds(5, 297, 505, 388); // 패널 2의 크기 조정
         left.add(panel2);
 
         // 패널 3 설정
-        GameButtonPanel panel3 = new GameButtonPanel();
+        panel3 = new GameButtonPanel();
         panel3.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        panel3.setBounds(20, 20, 715, 155);
+        panel3.setBounds(5, 5, 715, 155);
         right.add(panel3);
 
         // 패널 4 설정
@@ -55,16 +58,24 @@ public class LobbyFrame extends JFrame {
 
         // JScrollPane에 GameChoicePanel 추가
         scrollPane = new JScrollPane(panel4);
-        scrollPane.setBounds(20, 195, 715, 505); // JScrollPane 크기 조정
+        scrollPane.setBounds(5, 180, 715, 505); // JScrollPane 크기 조정
         right.add(scrollPane);
 
         // 상단 및 하단 패널을 메인 프레임에 추가
-        add(left, BorderLayout.WEST);
-        add(right, BorderLayout.CENTER);
+        add(left);
+        add(right);
 
         // 프레임을 보이게 설정
         setVisible(true);
+
+        // 디버깅을 위한 크기 출력
+        System.out.println(panel1.getSize());
+        System.out.println(panel2.getSize());
         System.out.println(panel3.getSize());
+        System.out.println(scrollPane.getSize());
+        System.out.println(this.getSize());
+        System.out.println(left.getSize());
+        System.out.println(right.getSize());
     }
 
     public void setGameChoicePanel(GameChoicePanel gameChoicePanel) {
@@ -77,7 +88,7 @@ public class LobbyFrame extends JFrame {
 
         // 새로운 JScrollPane 생성 및 설정
         scrollPane = new JScrollPane(panel4);
-        scrollPane.setBounds(20, 195, 715, 505); // JScrollPane 크기 조정
+        scrollPane.setBounds(5, 180, 715, 505); // JScrollPane 크기 조정
 
         // 새로운 JScrollPane 추가
         right.add(scrollPane);
