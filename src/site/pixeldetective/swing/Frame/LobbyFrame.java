@@ -64,6 +64,7 @@ public class LobbyFrame extends JFrame {
 
         // 프레임을 보이게 설정
         setVisible(true);
+        System.out.println(panel3.getSize());
     }
 
     public void setGameChoicePanel(GameChoicePanel gameChoicePanel) {
