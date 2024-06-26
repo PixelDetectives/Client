@@ -4,6 +4,7 @@ package site.pixeldetective.swing.Panel;
 import javax.swing.*;
 import java.awt.*;
 
+// LobbyFrame >> LobbyPanel 패널 통합 및 관리를 담당
 public class LobbyPanel extends JPanel {
 
     JScrollPane scrollPane;

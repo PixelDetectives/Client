@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+// LobbyFrame >> LobbyPanel >> UserListPanel 현재 가입 회원 리스트를 담당
 public class UserListPanel extends JPanel {
 
     public UserListPanel() {
@@ -15,10 +16,10 @@ public class UserListPanel extends JPanel {
         titlePanel.setBackground(Color.BLUE);
         JLabel titleLabel = new JLabel("현재 유저");
         titleLabel.setForeground(Color.WHITE);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titlePanel.setPreferredSize(new Dimension(505, 50));
         titlePanel.setMinimumSize(new Dimension(505, 50));
         titlePanel.setMaximumSize(new Dimension(505, 50));
-
         titlePanel.add(titleLabel);
 
         // 유저 이름 패널 설정
@@ -83,11 +84,5 @@ public class UserListPanel extends JPanel {
         add(scrollPane);
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("User List Panel Test");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(505, 272);
-        frame.add(new UserListPanel());
-        frame.setVisible(true);
-    }
+
 }

@@ -7,6 +7,7 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.util.List;
 
+// LobbyFrame >> LobbyPanel >> GameChoicePanel 게임 선택 기능을 담당
 public class GameChoicePanel extends JPanel {
 
     public GameChoicePanel() {

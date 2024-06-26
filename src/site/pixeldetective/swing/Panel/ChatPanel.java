@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+// LobbyFrame >> LobbyPanel >> ChatPanel 채팅기능을 담당
 public class ChatPanel extends JPanel {
     private JPanel chatArea;
     private JTextField chatInputField;
@@ -33,7 +34,7 @@ public class ChatPanel extends JPanel {
         inputPanel.add(chatInputField, BorderLayout.CENTER);
 
         // 전송 버튼
-        sendButton = new JButton("Send");
+        sendButton = new JButton("전송");
         inputPanel.add(sendButton, BorderLayout.EAST);
 
         add(inputPanel, BorderLayout.SOUTH);
