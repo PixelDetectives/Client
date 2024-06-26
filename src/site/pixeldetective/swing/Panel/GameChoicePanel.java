@@ -72,6 +72,9 @@ public class GameChoicePanel extends JPanel {
             difficultyPanel.add(hardCheckBox);
             roomPanel.add(difficultyPanel);
 
+
+
+
             gbc.gridx = col;
             gbc.gridy = row;
             add(roomPanel, gbc);

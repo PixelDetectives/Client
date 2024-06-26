@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 // LobbyFrame >> LobbyPanel >> UserListPanel 현재 가입 회원 리스트를 담당
 public class UserListPanel extends JPanel {
 
+
     public UserListPanel() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -28,6 +29,7 @@ public class UserListPanel extends JPanel {
         userListPanel.setBackground(Color.WHITE);
 
         // 유저 이름 목록
+        // String[] userNames = getUserNames(); 이렇게 메서드를 호출해서 닉네임 리스트를 받아와야함.
         String[] userNames = {"이재원", "박준수", "김예은", "조영훈", "변시우", "유저6", "유저7", "유저8", "유저9", "유저10", "유저11", "유저12", "유저13", "유저14", "유저15"};
 
         // 유저 이름 라벨 추가
@@ -82,6 +84,14 @@ public class UserListPanel extends JPanel {
         // 패널 추가
         add(titlePanel);
         add(scrollPane);
+    }
+
+    public String[] getUserNames() {
+        // 서버로 부터 닉네임 리스트를 받아오는 명령어.
+
+
+
+        return null;
     }
 
 

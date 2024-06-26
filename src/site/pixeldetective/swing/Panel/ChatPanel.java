@@ -25,7 +25,7 @@ public class ChatPanel extends JPanel {
         JPanel inputPanel = new JPanel();
         inputPanel.setLayout(new BorderLayout());
 
-        // 닉네임 라벨
+        // 닉네임 라벨 // 로그인시 서버로부터 전달받아와야함
         nicknameLabel = new JLabel("픽셀 탐정1호기 :  ");
         inputPanel.add(nicknameLabel, BorderLayout.WEST);
 
@@ -56,19 +56,42 @@ public class ChatPanel extends JPanel {
         });
     }
 
+    //메서지 전송,Enter 버튼 클릭시 실행될 메서드
     private void sendChat() {
+
         String nickname = nicknameLabel.getText().trim();
         String message = chatInputField.getText().trim();
 
-        if (!message.isEmpty()) {
+        //1.서버에 보내는 채팅 닉네임 채팅 보내는 명령어
+
+        // message의 내용이 없을 경우를 처리함
+        if (!message.isEmpty() && message.length() < 30 ) {
+
+            //1.서버에 보내는 채팅 닉네임 채팅 보내는 명령어
+            // appendToChatArea(nickname + ": " + message);
             appendToChatArea(nickname + ": " + message);
+
+            //2.보낸 채팅 내용을 지워준다.
             chatInputField.setText("");
             chatInputField.requestFocus();
+
         } else {
-            JOptionPane.showMessageDialog(this, "메시지를 입력해주세요.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "메시지는 null이 안되고 30자 이하만 가능합니다.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
+    // 처음에 서버에 저장된 모든 chatting를 가져온다
+    private void getChatConstruct(){
+        // 24시간 동안의 Message내역을 가져오는
+        // 서버의 정보를 가져오는 명령어를 호출하는 명령어.
+
+        String[] str = null; // 서버로 채팅 리스트를 가져오는 명령어
+        for(int i = 0; i < str.length; i++ ){
+            appendToChatArea(str[i]);
+        }
+    }
+
+    // 메서지를 채팅창에 추가해주는 메서드
     private void appendToChatArea(String message) {
         JLabel messageLabel = new JLabel(message);
         messageLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -78,13 +101,20 @@ public class ChatPanel extends JPanel {
         chatArea.repaint();
         JScrollBar vertical = ((JScrollPane) chatArea.getParent().getParent()).getVerticalScrollBar();
         vertical.setValue(vertical.getMaximum());
+
     }
 
     public static void main(String[] args) {
+
+        
         JFrame frame = new JFrame("Chat Panel");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(505, 388);
-        frame.add(new ChatPanel());
+
+        ChatPanel chatPanel = new ChatPanel();
+        chatPanel.appendToChatArea("호랑나비 : 감자맨");
+        frame.add(chatPanel);
         frame.setVisible(true);
+
     }
 }

@@ -1,7 +1,10 @@
 package site.pixeldetective.swing.Panel;
 
+import site.pixeldetective.swing.Frame.MakeRoomFrame;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 // LobbyFrame >> LobbyPanel >> GameButtonPanel 방만들기 빠른매칭 버튼 클릭
 public class GameButtonPanel extends JPanel {
@@ -32,6 +35,33 @@ public class GameButtonPanel extends JPanel {
         gbc.gridx = 1; // 두 번째 버튼의 열 인덱스
         gbc.gridy = 0; // 두 번째 버튼의 행 인덱스
         add(button2, gbc);
+
+
+        //방만들기 버튼 Frame전환 기능이 만들어져야함  !!!
+        button1.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("button1");
+                // LobbyFrame > MakeRoomFrame
+
+                new MakeRoomFrame(); // 새로운 프레임 열기
+                setVisible(false);
+
+
+            }
+        });
+
+
+        //랜덤으로 현재 만들어진 방들 중에서 방에 입장할 수 있어야 함
+        button2.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // 생성자에서 프레임을 받아오는 방식.
+                //dispose(); // 현재 프레임 닫기
+                new MakeRoomFrame(); // 새로운 프레임 열기
+            }
+        });
+
     }
 
 }
