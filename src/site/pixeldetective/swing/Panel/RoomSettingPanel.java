@@ -1,5 +1,8 @@
 package site.pixeldetective.swing.Panel;
 
+import site.pixeldetective.swing.Frame.LobbyFrame;
+import site.pixeldetective.swing.Frame.MakeRoomFrame;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -8,7 +11,7 @@ import java.awt.event.*;
 import java.util.Enumeration;
 
 public class RoomSettingPanel extends JPanel{
-
+    public MakeRoomFrame mrf;
     private JLabel mainTitle;
     private JLabel roomLabel;
     private JTextField roomTextField;
@@ -18,6 +21,8 @@ public class RoomSettingPanel extends JPanel{
     private JRadioButton easyButton;
     private JButton yesBtn;
     private JButton noBtn;
+
+    private MakeRoomFrame makeRoomFrame;
 
 
     public RoomSettingPanel(){
@@ -176,17 +181,11 @@ public class RoomSettingPanel extends JPanel{
 
                 JOptionPane.showMessageDialog(null, "매칭중 입니다 ...", "매칭중", JOptionPane.INFORMATION_MESSAGE);
 
-                System.out.println("방이름 : "+roomTextField.getText()+"\n난이도 : "
-                +selectedButtonText);
+                System.out.println("방이름 : "+roomTextField.getText()+"\n난이도 : "+selectedButtonText);
             }
         });
 
-        noBtn.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                System.out.println("뒤로가기");
-            }
-        });
+        noBtn.addActionListener(e -> mrf.changeFrame());
     }
 
     // 선택된 라디오 버튼의 텍스트를 리턴
@@ -199,4 +198,6 @@ public class RoomSettingPanel extends JPanel{
         }
         return null;
     }
+
+
 }

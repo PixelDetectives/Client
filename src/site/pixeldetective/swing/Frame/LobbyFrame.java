@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 public class LobbyFrame extends JFrame {
-
+    public MakeRoomFrame makeRoomFrame;
     public LobbyFrame() {
         setTitle("LobbyFrame");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

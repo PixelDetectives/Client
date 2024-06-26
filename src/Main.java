@@ -1,11 +1,13 @@
-import site.pixeldetective.swing.Frame.GameFrame;
-import site.pixeldetective.swing.Frame.UserFrame;
-import site.pixeldetective.swing.Frame.UserLoginFrame;
-import site.pixeldetective.swing.Frame.UserSignUpFrame;
+import site.pixeldetective.swing.Frame.*;
 
 public class Main {
     public static void main(String[] args) {
 //        new GameFrame();
-    	new UserFrame();
+        MakeRoomFrame makeRoomFrame = new MakeRoomFrame();
+        LobbyFrame lobbyFrame = new LobbyFrame();
+
+        makeRoomFrame.lobbyFrame = lobbyFrame;
+        lobbyFrame.makeRoomFrame = makeRoomFrame;
     }
 }
+
