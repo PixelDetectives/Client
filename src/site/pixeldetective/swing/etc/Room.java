@@ -1,6 +1,8 @@
 package site.pixeldetective.swing.etc;
 
 public class Room {
+
+    Integer rNum;       // 각 룸들에 대한 식별자
     private String title;
     private String difficulty;
 

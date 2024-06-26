@@ -17,7 +17,7 @@ public class GameButtonPanel extends JPanel {
         gbc.anchor = GridBagConstraints.CENTER;
 
         // 공통 폰트 설정 (글자 크기를 24로 설정)
-        Font buttonFont = new Font("Arial", Font.BOLD, 30);
+        Font buttonFont = new Font("Malgun Gothic", Font.BOLD, 30);
 
 
         // 첫 번째 버튼 생성 및 설정

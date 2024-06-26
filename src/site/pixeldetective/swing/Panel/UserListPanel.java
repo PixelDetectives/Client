@@ -17,7 +17,7 @@ public class UserListPanel extends JPanel {
         titlePanel.setBackground(Color.BLUE);
         JLabel titleLabel = new JLabel("현재 유저");
         titleLabel.setForeground(Color.WHITE);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        titleLabel.setFont(new Font("Malgun Gothic", Font.BOLD, 24));
         titlePanel.setPreferredSize(new Dimension(505, 50));
         titlePanel.setMinimumSize(new Dimension(505, 50));
         titlePanel.setMaximumSize(new Dimension(505, 50));
