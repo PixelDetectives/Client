@@ -12,18 +12,21 @@ import java.sql.Timestamp;
 public class Chat {
     private int chatId;
     private String message;
+    private String uName;
     private int sender;
     private Timestamp sentAt;
 
-    public Chat(int chatId, String message, int sender, Timestamp sentAt) {
+    public Chat(int chatId, String message,String uName, int sender, Timestamp sentAt) {
         this.chatId = chatId;
         this.message = message;
+        this.uName = uName;
         this.sender = sender;
         this.sentAt = sentAt;
     }
 
-    public Chat(String message, int sender, Timestamp sentAt) {
+    public Chat(String message, String uName, int sender, Timestamp sentAt) {
         this.message = message;
+        this.uName = uName;
         this.sender = sender;
         this.sentAt = sentAt;
     }
@@ -31,6 +34,16 @@ public class Chat {
     public Chat() {
     }
 
+    @Override
+    public String toString() {
+        return "Chat{" +
+                "chatId=" + chatId +
+                ", message='" + message + '\'' +
+                ", uName='" + uName + '\'' +
+                ", sender=" + sender +
+                ", sentAt=" + sentAt +
+                '}';
+    }
 
     public int getChatId() {
         return chatId;
@@ -48,6 +61,14 @@ public class Chat {
         this.message = message;
     }
 
+    public String getuName() {
+        return uName;
+    }
+
+    public void setuName(String uName) {
+        this.uName = uName;
+    }
+
     public int getSender() {
         return sender;
     }
@@ -62,16 +83,5 @@ public class Chat {
 
     public void setSentAt(Timestamp sentAt) {
         this.sentAt = sentAt;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Chat{" +
-                "chatId=" + chatId +
-                ", message='" + message + '\'' +
-                ", sender=" + sender +
-                ", sentAt=" + sentAt +
-                '}';
     }
 }

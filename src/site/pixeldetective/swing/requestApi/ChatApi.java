@@ -26,11 +26,12 @@ public class ChatApi {
             // 각 JSONObject에서 필요한 데이터 추출
             int chatId = jsonObject.getInt("chat_id");
             String message = jsonObject.getString("message");
+            String uName = jsonObject.getString("u_name");
             int sender = jsonObject.getInt("sender");
             String sendAt = jsonObject.getString("sent_at");
 
 
-            Chat c = new Chat( chatId,  message,  sender, convertStringToTimestamp(sendAt));
+            Chat c = new Chat( chatId,  message,uName,  sender, convertStringToTimestamp(sendAt));
             cList.add(c);
         }
         return cList;
