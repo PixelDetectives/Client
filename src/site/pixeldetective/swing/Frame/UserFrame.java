@@ -23,22 +23,21 @@ public class UserFrame extends JFrame{
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-		this.user = new JPanel();
+		user = new JPanel();
 		CardLayout cardLayout = new CardLayout();
-		this.user.setLayout(cardLayout);
-		add(this.user);
+		user.setLayout(cardLayout);
+		add(user);
 		
-		this.signup = new UserSignUpFrame();
-		this.login = new UserLoginFrame();
-		this.user.add(login, "panel login");
-		this.user.add(signup, "panel signup");
+		signup = new UserSignUpFrame();
+		login = new UserLoginFrame();
+		user.add(login, "panel login");
+		user.add(signup, "panel signup");
 		
 		login.jbt_signup.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(login.isVisible()) {
 					cardLayout.show(user,"panel signup");
-				}else {
 				}
 			}
 		});
@@ -47,8 +46,8 @@ public class UserFrame extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(signup.isVisible()) {
+					
 					cardLayout.show(user, "panel login");
-				}else {
 				}
 			}
 		});
@@ -58,7 +57,6 @@ public class UserFrame extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				if(signup.isVisible()) {
 					cardLayout.show(user, "panel login");
-				}else {
 				}
 			}
 		});
