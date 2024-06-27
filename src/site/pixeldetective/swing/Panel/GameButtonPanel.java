@@ -45,7 +45,7 @@ public class GameButtonPanel extends JPanel {
                 // LobbyFrame > MakeRoomFrame
 
                 new MakeRoomFrame(); // 새로운 프레임 열기
-                setVisible(false);
+
 
 
             }
