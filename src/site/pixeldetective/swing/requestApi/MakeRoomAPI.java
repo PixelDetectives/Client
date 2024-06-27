@@ -33,8 +33,4 @@ public class MakeRoomAPI {
         }
     }
 
-    public static void main(String[] args) {
-        MakeRoomAPI api = new MakeRoomAPI();
-        api.postRoom("TestRoom", "어려움", 1, 2, 3);
-    }
 }

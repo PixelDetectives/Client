@@ -4,6 +4,8 @@ import site.pixeldetective.swing.HttpConnector.HttpConnector;
 
 public class Main {
     public static void main(String[] args) {
+//        new UserFrame();
+
 //        new GameFrame();
         MakeRoomFrame makeRoomFrame = new MakeRoomFrame();
         LobbyFrame lobbyFrame = new LobbyFrame();
