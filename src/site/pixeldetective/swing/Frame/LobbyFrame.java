@@ -22,11 +22,11 @@ public class LobbyFrame extends JFrame {
 
 
     public static void main(String[] args) {
-
-
-        LobbyFrame frame = new LobbyFrame();
-
+        new LobbyFrame();
     }
 
+    public void setGameChoicePanel(GameChoicePanel gameChoicePanel) {
 
+        ( (LobbyPanel) getContentPane().getComponent(0)).setGameChoicePanel(gameChoicePanel);
+    }
 }

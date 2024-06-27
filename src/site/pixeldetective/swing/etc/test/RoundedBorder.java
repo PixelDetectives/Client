@@ -1,4 +1,4 @@
-package site.pixeldetective.swing.etc;
+package site.pixeldetective.swing.etc.test;
 
 import javax.swing.*;
 import java.awt.*;
