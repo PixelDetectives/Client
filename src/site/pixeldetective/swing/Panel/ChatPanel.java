@@ -1,9 +1,14 @@
 package site.pixeldetective.swing.Panel;
 
+import site.pixeldetective.swing.etc.Chat;
+import site.pixeldetective.swing.requestApi.ChatApi;
+import site.pixeldetective.swing.requestApi.ChattingApi;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 // LobbyFrame >> LobbyPanel >> ChatPanel 채팅기능을 담당
 public class ChatPanel extends JPanel {
@@ -13,6 +18,10 @@ public class ChatPanel extends JPanel {
     private JLabel nicknameLabel;
 
     public ChatPanel() {
+
+        ChatApi cApi = new ChatApi();
+        ArrayList<Chat> cList = cApi.getChatList();
+
         setLayout(new BorderLayout());
 
         // 채팅 내용을 표시할 영역

@@ -22,26 +22,11 @@ public class LobbyFrame extends JFrame {
 
 
     public static void main(String[] args) {
-        ArrayList<Room> rArr = new ArrayList<>();
-        rArr.add(new Room("나의 첫 게임", "중간"));
-        rArr.add(new Room("나의 첫 게임", "중간"));
-        rArr.add(new Room("나의 첫 게임", "중간"));
-        rArr.add(new Room("나의 첫 게임", "중간"));
-        rArr.add(new Room("나의 첫 게임", "중간"));
-        rArr.add(new Room("나의 첫 게임", "중간"));
-        rArr.add(new Room("나의 첫 게임", "중간"));
-        rArr.add(new Room("나의 첫 게임", "중간"));
-        rArr.add(new Room("나의 첫 게임", "중간"));
-        rArr.add(new Room("나의 첫 게임", "중간"));
-        rArr.add(new Room("나의 첫 게임", "중간"));
-        rArr.add(new Room("나의 첫 게임", "중간"));
+
 
         LobbyFrame frame = new LobbyFrame();
-        frame.setGameChoicePanel(new GameChoicePanel(rArr));
+
     }
 
-    public void setGameChoicePanel(GameChoicePanel gameChoicePanel) {
 
-        ( (LobbyPanel) getContentPane().getComponent(0)).setGameChoicePanel(gameChoicePanel);
-    }
 }
