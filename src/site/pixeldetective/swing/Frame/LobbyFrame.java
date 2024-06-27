@@ -22,10 +22,7 @@ public class LobbyFrame extends JFrame {
 
 
     public static void main(String[] args) {
-        ArrayList<Room> rArr = new ArrayList<>();
-
-        LobbyFrame frame = new LobbyFrame();
-        frame.setGameChoicePanel(new GameChoicePanel(rArr));
+        new LobbyFrame();
     }
 
     public void setGameChoicePanel(GameChoicePanel gameChoicePanel) {
