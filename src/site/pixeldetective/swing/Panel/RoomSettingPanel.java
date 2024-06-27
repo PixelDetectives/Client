@@ -2,6 +2,7 @@ package site.pixeldetective.swing.Panel;
 
 import site.pixeldetective.swing.Frame.LobbyFrame;
 import site.pixeldetective.swing.Frame.MakeRoomFrame;
+import site.pixeldetective.swing.requestApi.MakeRoomAPI;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -179,9 +180,13 @@ public class RoomSettingPanel extends JPanel{
                     return;
                 }
 
+                MakeRoomAPI api = new MakeRoomAPI();
+                api.postRoom(inputRoomTitle,selectedButtonText , 1, 2, 3);
+                System.out.println("방이름 : "+roomTextField.getText()+"\n난이도 : "+selectedButtonText);
+
                 JOptionPane.showMessageDialog(null, "매칭중 입니다 ...", "매칭중", JOptionPane.INFORMATION_MESSAGE);
 
-                System.out.println("방이름 : "+roomTextField.getText()+"\n난이도 : "+selectedButtonText);
+
             }
         });
 
