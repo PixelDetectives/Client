@@ -19,8 +19,6 @@ public class ChatPanel extends JPanel {
 
     public ChatPanel() {
 
-        ChatApi cApi = new ChatApi();
-        ArrayList<Chat> cList = cApi.getChatList();
 
         setLayout(new BorderLayout());
 
@@ -47,6 +45,14 @@ public class ChatPanel extends JPanel {
         inputPanel.add(sendButton, BorderLayout.EAST);
 
         add(inputPanel, BorderLayout.SOUTH);
+
+        // API 서버 생성
+        ChatApi cApi = new ChatApi();
+        // 서버 요청후 List 가져옴
+        ArrayList<Chat> cList = cApi.getChatList();
+        // 초기화 채팅 리스트 실행
+        getChatConstruct(cList);
+
 
         // 전송 버튼 클릭 이벤트
         sendButton.addActionListener(new ActionListener() {
@@ -90,13 +96,12 @@ public class ChatPanel extends JPanel {
     }
 
     // 처음에 서버에 저장된 모든 chatting를 가져온다
-    private void getChatConstruct(){
+    private void getChatConstruct(ArrayList<Chat> cList){
         // 24시간 동안의 Message내역을 가져오는
         // 서버의 정보를 가져오는 명령어를 호출하는 명령어.
 
-        String[] str = null; // 서버로 채팅 리스트를 가져오는 명령어
-        for(int i = 0; i < str.length; i++ ){
-            appendToChatArea(str[i]);
+        for(int i = 0; i < cList.size(); i++ ){
+            appendToChatArea(cList.get(i).getuName()+" : " + cList.get(i).getMessage());
         }
     }
 
