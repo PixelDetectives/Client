@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 // LobbyFrame >> LobbyPanel >> ChatPanel 채팅기능을 담당
 public class ChatPanel extends JPanel {
@@ -19,17 +20,10 @@ public class ChatPanel extends JPanel {
     private JButton sendButton;
     private JLabel nicknameLabel;
 
-    private SocketClient socketClient;
+    public SocketClient socketClient;
 
-    {
-        try {
-            socketClient = new SocketClient();
-            socketClient.connect();
 
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
-    }
+
 
     public ChatPanel()  {
 
@@ -47,7 +41,7 @@ public class ChatPanel extends JPanel {
         inputPanel.setLayout(new BorderLayout());
 
         // 닉네임 라벨 // 로그인시 서버로부터 전달받아와야함
-        nicknameLabel = new JLabel("픽셀 탐정1호기 :  ");
+        nicknameLabel = new JLabel("픽셀 탐정1호기  ");
         inputPanel.add(nicknameLabel, BorderLayout.WEST);
 
         // 채팅 입력 필드
@@ -101,13 +95,14 @@ public class ChatPanel extends JPanel {
             try {
 
                 result = socketClient.sendChatMessage(nickname, message);
-                System.out.println("result === " +result);
-                result = socketClient.chatConvertor(result);
+//                System.out.println("result === " +result);
+//                result = socketClient.chatConvertor(result);
             }catch (Exception e){
                 e.printStackTrace();
             }
-            appendToChatArea(result);
-
+//            if(!Objects.isNull(result)) {
+//                appendToChatArea(result);
+//            }
             //2.보낸 채팅 내용을 지워준다.
             chatInputField.setText("");
             chatInputField.requestFocus();
@@ -127,16 +122,15 @@ public class ChatPanel extends JPanel {
     }
 
     // 메서지를 채팅창에 추가해주는 메서드
-    private void appendToChatArea(String message) {
+    public void appendToChatArea(String message) {
         JLabel messageLabel = new JLabel(message);
-        messageLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        messageLabel.setBorder(BorderFactory.createEmptyBorder(0, 5, 2, 5));
         chatArea.add(messageLabel);
-        chatArea.add(Box.createRigidArea(new Dimension(0, 5))); // 메시지 간 간격
+        chatArea.add(Box.createRigidArea(new Dimension(0, 2))); // 메시지 간 간격
         chatArea.revalidate();
         chatArea.repaint();
         JScrollBar vertical = ((JScrollPane) chatArea.getParent().getParent()).getVerticalScrollBar();
         vertical.setValue(vertical.getMaximum());
-
     }
 
     public static void main(String[] args) throws URISyntaxException {

@@ -1,11 +1,20 @@
 package site.pixeldetective.swing.Panel;
 
 
+import site.pixeldetective.swing.Frame.LobbyFrame;
+import site.pixeldetective.swing.Frame.MakeRoomFrame;
+import site.pixeldetective.swing.webSocketClient.SocketClient;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.net.URISyntaxException;
 
 // LobbyFrame >> LobbyPanel 패널 통합 및 관리를 담당
 public class LobbyPanel extends JPanel {
+
+    public LobbyFrame lf;
+
 
     JScrollPane scrollPane;
     UserListPanel panel1;
@@ -15,7 +24,14 @@ public class LobbyPanel extends JPanel {
     JPanel right;
     JPanel left;
 
+    public SocketClient socketClient;
+
+
+
+
     public LobbyPanel() {
+
+
         setLayout(null); // 절대 위치 배치로 변경
 
         left = new JPanel();
@@ -56,6 +72,29 @@ public class LobbyPanel extends JPanel {
         // 상단 및 하단 패널을 메인 패널에 추가
         add(left);
         add(right);
+
+        try {
+            socketClient = new SocketClient();
+            socketClient.connect();
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+        panel2.socketClient = socketClient;
+        panel1.socketClient = socketClient;
+        socketClient.chatPanel = panel2;
+        socketClient.userListPanel = panel1;
+
+        try {
+            //socketClient.getCurrentUserList();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        panel3.button1.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                lf.changeFrame();
+            }
+        });
 
         // 디버깅을 위한 크기 출력
         System.out.println(panel1.getSize());

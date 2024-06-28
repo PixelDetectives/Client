@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 
 // LobbyFrame >> LobbyPanel >> GameButtonPanel 방만들기 빠른매칭 버튼 클릭
 public class GameButtonPanel extends JPanel {
+    JButton button1;
     public GameButtonPanel() {
         setLayout(new GridBagLayout()); // 더 유연한 레이아웃 관리
 
@@ -21,7 +22,7 @@ public class GameButtonPanel extends JPanel {
 
 
         // 첫 번째 버튼 생성 및 설정
-        JButton button1 = new JButton("방만들기");
+        button1 = new JButton("방만들기");
         button1.setPreferredSize(new Dimension(297, 101));
         button1.setFont(buttonFont);
         gbc.gridx = 0; // 첫 번째 버튼의 열 인덱스
@@ -42,9 +43,7 @@ public class GameButtonPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("button1");
-                // LobbyFrame > MakeRoomFrame
 
-                new MakeRoomFrame(); // 새로운 프레임 열기
 
 
 
