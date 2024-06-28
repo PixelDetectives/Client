@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import site.pixeldetective.swing.requestApi.SignUpApi;
@@ -49,8 +50,13 @@ public class UserFrame extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(signup.isVisible()) {
-					suapi.postSign(signup.jtf_id.getText(), signup.jtf_name.getText(), signup.jtf_pw.getText());
-					cardLayout.show(user, "panel login");
+					boolean signUpSuccess = suapi.postSign(signup.jtf_id.getText(), signup.jtf_name.getText(), signup.jtf_pw.getText());
+					if(signUpSuccess) {
+						JOptionPane.showMessageDialog(null, "회원가입에 성공했습니다.", "성공 메시지", JOptionPane.INFORMATION_MESSAGE);
+						cardLayout.show(user, "panel login");
+					}else {
+						JOptionPane.showMessageDialog(null, "회원가입에 실패했습니다.", "실패 메시지", JOptionPane.INFORMATION_MESSAGE);
+					}
 				}
 			}
 		});
