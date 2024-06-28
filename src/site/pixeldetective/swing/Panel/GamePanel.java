@@ -3,7 +3,9 @@ package site.pixeldetective.swing.Panel;
 import site.pixeldetective.swing.Component.CorrectPanel;
 import site.pixeldetective.swing.Component.CurrentBoardPanel;
 import site.pixeldetective.swing.Component.DrawingComponent;
+import site.pixeldetective.swing.Frame.GameFrame;
 import site.pixeldetective.swing.Panel.DrawingPanel;
+import site.pixeldetective.swing.Panel.GameResult;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,6 +33,7 @@ public class GamePanel extends JPanel {
     public DrawingPanel rightPanel;
     public CorrectPanel cp;
     public Timer t;
+    public GameFrame gf;
     public GamePanel() {
 
 
@@ -192,12 +195,22 @@ public class GamePanel extends JPanel {
         if (t != null) {
             t.stop();
         }
-        JOptionPane.showMessageDialog(
-                GamePanel.this,
-                "game over",
-                "타이머",
-                JOptionPane.INFORMATION_MESSAGE
-        );
-    }
 
+        // 결과를 계산하는 로직을 추가합니다.
+        String result;
+        if (hits > TOTAL_HITS / 2) {
+            result = "WIN";
+        } else if (hits < TOTAL_HITS / 2) {
+            result = "LOSE";
+        } else {
+            result = "DRAW";
+        }
+
+        SwingUtilities.invokeLater(() -> {
+            GameResult gr = new GameResult(myName, otherName, hits, miss, total, time, result);
+            gr.setVisible(true);
+            gr.gf = this.gf;
+
+        });
+    }
 }

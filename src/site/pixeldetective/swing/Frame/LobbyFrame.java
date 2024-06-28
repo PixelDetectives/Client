@@ -3,6 +3,7 @@ package site.pixeldetective.swing.Frame;
 import site.pixeldetective.swing.Panel.GameChoicePanel;
 import site.pixeldetective.swing.Panel.LobbyPanel;
 import site.pixeldetective.swing.etc.Room;
+import site.pixeldetective.swing.Panel.GameResult;
 
 import javax.swing.*;
 import java.awt.*;
