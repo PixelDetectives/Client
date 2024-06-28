@@ -5,33 +5,21 @@ import site.pixeldetective.swing.Panel.LobbyPanel;
 import site.pixeldetective.swing.etc.Room;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
 
 public class LobbyFrame extends JFrame {
     public MakeRoomFrame makeRoomFrame;
-
     public LobbyFrame() {
-        LobbyPanel lp = new LobbyPanel();
-        lp.lf = this;
-        add(lp);
-
-        setVisible(true);
         setTitle("LobbyFrame");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1280, 720);
         setLocationRelativeTo(null);
 
+        add(new LobbyPanel());
+        setVisible(true);
     }
 
-    public void changeFrameToMakeRoom() {
-        Point location = this.getLocation();
-        Dimension size = this.getSize();
-        makeRoomFrame.setLocation(location);
-        makeRoomFrame.setSize(size);
-        makeRoomFrame.setVisible(true);
-        this.setVisible(false);
-    }
+
 
     public static void main(String[] args) {
         new LobbyFrame();

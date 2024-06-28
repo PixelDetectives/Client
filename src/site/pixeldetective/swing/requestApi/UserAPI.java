@@ -22,9 +22,12 @@ public class UserAPI {
             JSONObject jsonResponse = new JSONObject(response);
             String result = jsonResponse.getString("message");
             String jwt = jsonResponse.getString("jwt");
+            // u_id u_name u_num / 로비프레임   검증
 
 
             if("성공".equals(result)){
+                System.out.println(result);
+                System.out.println(jwt);
                 return true;
             }else {
 

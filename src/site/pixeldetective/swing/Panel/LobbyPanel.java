@@ -1,11 +1,8 @@
 package site.pixeldetective.swing.Panel;
 
 
-import site.pixeldetective.swing.Frame.LobbyFrame;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 
 // LobbyFrame >> LobbyPanel 패널 통합 및 관리를 담당
 public class LobbyPanel extends JPanel {
@@ -17,7 +14,6 @@ public class LobbyPanel extends JPanel {
     GameChoicePanel panel4;
     JPanel right;
     JPanel left;
-    public LobbyFrame lf;
 
     public LobbyPanel() {
         setLayout(null); // 절대 위치 배치로 변경
@@ -46,13 +42,6 @@ public class LobbyPanel extends JPanel {
         panel3 = new GameButtonPanel();
         panel3.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         panel3.setBounds(5, 5, 715, 155);
-        panel3.button1.addActionListener(new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                lf.changeFrameToMakeRoom();
-            }
-        });
-
         right.add(panel3);
 
         // 패널 4 설정
