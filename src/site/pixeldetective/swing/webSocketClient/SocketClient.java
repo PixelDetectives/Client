@@ -25,6 +25,8 @@ public class SocketClient extends WebSocketClient {
     @Override
     public void onMessage(String message) {
         System.out.println("Received message: " + message);
+
+
         if (responseFuture != null) {
             responseFuture.complete(message);
         }
@@ -115,4 +117,29 @@ public class SocketClient extends WebSocketClient {
         request.put("command", "roomDelete");
         sendMessage(request);
     }
+
+
+    public static String chatConvertor(String jsonString) {
+        try {
+            JSONObject jsonObject = new JSONObject(jsonString);
+            String type = jsonObject.getString("type");
+
+            if ("newChatMessage".equals(type)) {
+                String data = jsonObject.getString("data");
+                JSONObject dataObject = new JSONObject(data);
+                String nickname = dataObject.getString("nickname");
+                String message = dataObject.getString("message");
+                String result = nickname +" : "+message;
+                System.out.println("출력:"+nickname +" : "+message);
+                return result;
+            } else {
+                System.out.println("Unknown message type: " + type);
+                return "Unknown message type: " + type;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "chatConvertor 실행도중에러발생";
+    }
+
 }

@@ -3,11 +3,13 @@ package site.pixeldetective.swing.Panel;
 import site.pixeldetective.swing.etc.Chat;
 import site.pixeldetective.swing.requestApi.ChatApi;
 import site.pixeldetective.swing.requestApi.ChattingApi;
+import site.pixeldetective.swing.webSocketClient.SocketClient;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 // LobbyFrame >> LobbyPanel >> ChatPanel 채팅기능을 담당
@@ -17,7 +19,19 @@ public class ChatPanel extends JPanel {
     private JButton sendButton;
     private JLabel nicknameLabel;
 
-    public ChatPanel() {
+    private SocketClient socketClient;
+
+    {
+        try {
+            socketClient = new SocketClient();
+            socketClient.connect();
+
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public ChatPanel()  {
 
 
         setLayout(new BorderLayout());
@@ -51,8 +65,7 @@ public class ChatPanel extends JPanel {
         // 서버 요청후 List 가져옴
         ArrayList<Chat> cList = cApi.getChatList();
         // 초기화 채팅 리스트 실행
-        getChatConstruct(cList);
-
+//        getChatConstruct(cList);
 
         // 전송 버튼 클릭 이벤트
         sendButton.addActionListener(new ActionListener() {
@@ -77,19 +90,27 @@ public class ChatPanel extends JPanel {
         String nickname = nicknameLabel.getText().trim();
         String message = chatInputField.getText().trim();
 
+
         //1.서버에 보내는 채팅 닉네임 채팅 보내는 명령어
 
         // message의 내용이 없을 경우를 처리함
         if (!message.isEmpty() && message.length() < 30 ) {
 
             //1.서버에 보내는 채팅 닉네임 채팅 보내는 명령어
-            // appendToChatArea(nickname + ": " + message);
-            appendToChatArea(nickname + ": " + message);
+            String result = null;
+            try {
+
+                result = socketClient.sendChatMessage(nickname, message);
+                System.out.println("result === " +result);
+                result = socketClient.chatConvertor(result);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            appendToChatArea(result);
 
             //2.보낸 채팅 내용을 지워준다.
             chatInputField.setText("");
             chatInputField.requestFocus();
-
         } else {
             JOptionPane.showMessageDialog(this, "메시지는 null이 안되고 30자 이하만 가능합니다.", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -118,7 +139,7 @@ public class ChatPanel extends JPanel {
 
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws URISyntaxException {
 
         
         JFrame frame = new JFrame("Chat Panel");
