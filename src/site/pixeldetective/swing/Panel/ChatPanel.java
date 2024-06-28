@@ -101,7 +101,7 @@ public class ChatPanel extends JPanel {
                 e.printStackTrace();
             }
 //            if(!Objects.isNull(result)) {
-
+//                appendToChatArea(result);
 //            }
             //2.보낸 채팅 내용을 지워준다.
             chatInputField.setText("");
@@ -133,5 +133,17 @@ public class ChatPanel extends JPanel {
         vertical.setValue(vertical.getMaximum());
     }
 
+    public static void main(String[] args) throws URISyntaxException {
 
+        
+        JFrame frame = new JFrame("Chat Panel");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(505, 388);
+
+        ChatPanel chatPanel = new ChatPanel();
+        chatPanel.appendToChatArea("호랑나비 : 감자맨");
+        frame.add(chatPanel);
+        frame.setVisible(true);
+
+    }
 }
