@@ -8,11 +8,14 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import site.pixeldetective.swing.requestApi.SignUpApi;
+import site.pixeldetective.swing.requestApi.UserAPI;
+
 public class UserFrame extends JFrame{
 	public UserSignUpFrame signup;
 	public UserLoginFrame login;
 	public JPanel user;
-	
+	public SignUpApi suapi = new SignUpApi();
 	
 	public UserFrame() {
 		setTitle("픽셀탐정단");
@@ -46,7 +49,7 @@ public class UserFrame extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(signup.isVisible()) {
-					
+					suapi.postSign(signup.jtf_id.getText(), signup.jtf_name.getText(), signup.jtf_pw.getText());
 					cardLayout.show(user, "panel login");
 				}
 			}
