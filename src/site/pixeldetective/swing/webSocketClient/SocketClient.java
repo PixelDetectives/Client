@@ -37,15 +37,12 @@ public class SocketClient extends WebSocketClient {
     //해당되는 GUI의 메서드를 호출 해서 요소를 출력하거나 더한다.
     @Override
     public void onMessage(String message) {
-        System.out.println("onMessage 시작 !!!");
-
         System.out.println("전달 받은 messase 시작 ");
         System.out.println(message);
         System.out.println("messase 끝 ");
 
-
-        //chatPanel.appendToChatArea(chatConvertor(message));
-
+        System.out.println(chatConvertor(message));
+        chatPanel.appendToChatArea(chatConvertor(message));
 
         if (responseFuture != null) {
             responseFuture.complete(message);
@@ -147,19 +144,13 @@ public class SocketClient extends WebSocketClient {
             String type = jsonObject.getString("type");
 
             if ("newChatMessage".equals(type)) {
-                System.out.println("type = newChatMessage ");
-                System.out.println("joinString =");
-                System.out.println(jsonString);
 
                 String data = jsonObject.getString("data");
                 JSONObject dataObject = new JSONObject(data);
                 String nickname = dataObject.getString("nickname");
                 String message = dataObject.getString("message");
 
-                System.out.println(nickname);
-                System.out.println(message);
                 String result = nickname +"  "+message;
-                System.out.println("출력:"+nickname +" : "+message);
                 return result;
             }
         } catch (Exception e) {
