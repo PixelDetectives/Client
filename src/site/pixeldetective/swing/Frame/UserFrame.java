@@ -17,7 +17,8 @@ public class UserFrame extends JFrame{
 	public UserLoginFrame login;
 	public JPanel user;
 	public SignUpApi suapi = new SignUpApi();
-	
+	public LobbyFrame lf = new LobbyFrame();
+	public UserAPI userapi = new UserAPI();
 	
 	public UserFrame() {
 		setTitle("픽셀탐정단");
@@ -38,6 +39,24 @@ public class UserFrame extends JFrame{
 		user.add(login, "panel login");
 		user.add(signup, "panel signup");
 		
+		// 로그인 페이지 > 게임 로비 페이지
+		login.jbt_login.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (userapi.postLogin(login.jtf_id.getText(), login.jtf_pw.getText()) == false
+						|| login.jtf_id.getText().length() > 10 || login.jtf_id.getText().length() < 6
+						|| login.jtf_pw.getText().length() > 10 || login.jtf_pw.getText().length() < 4) {
+					JOptionPane.showMessageDialog(null, "로그인에 실패했습니다.", "실패 메시지", JOptionPane.INFORMATION_MESSAGE);
+				}else {
+					dispose();
+					lf.setVisible(true);
+				}
+				
+			}
+		});
+		
+		// 로그인 페이지 > 회원가입 페이지
 		login.jbt_signup.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -47,6 +66,7 @@ public class UserFrame extends JFrame{
 			}
 		});
 		
+		// 회원가입 페이지 - 회원가입 기능
 		signup.jbt_signup.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -64,11 +84,11 @@ public class UserFrame extends JFrame{
 							JOptionPane.showMessageDialog(null, "회원가입에 실패했습니다.", "실패 메시지", JOptionPane.INFORMATION_MESSAGE);
 						}
 					}
-					
 				}
 			}
 		});
 		
+		// 회원가입 페이지 > 로그인 페이지
 		signup.jbt_cancel.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
