@@ -102,7 +102,7 @@ public class ChatPanel extends JPanel {
 
                 result = socketClient.sendChatMessage(nickname, message);
                 System.out.println("result === " +result);
-                result = socketClient.chatConvertor(result);
+                result = result;
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -141,7 +141,7 @@ public class ChatPanel extends JPanel {
 
     public static void main(String[] args) throws URISyntaxException {
 
-        
+
         JFrame frame = new JFrame("Chat Panel");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(505, 388);
