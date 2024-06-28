@@ -39,16 +39,22 @@ public class UserFrame extends JFrame{
 		user.add(login, "panel login");
 		user.add(signup, "panel signup");
 		
+		
 		// 로그인 페이지 > 게임 로비 페이지
 		login.jbt_login.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				System.out.println("login clicked");
+				System.out.println(login.jtf_id.getText());
+				System.out.println(login.jtf_pw.getText());
+				System.out.println("login clicked");
 				if (userapi.postLogin(login.jtf_id.getText(), login.jtf_pw.getText()) == false
 						|| login.jtf_id.getText().length() > 10 || login.jtf_id.getText().length() < 6
 						|| login.jtf_pw.getText().length() > 10 || login.jtf_pw.getText().length() < 4) {
-					JOptionPane.showMessageDialog(null, "로그인에 실패했습니다.", "실패 메시지", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "로그인에 실패했습니다.", "", JOptionPane.INFORMATION_MESSAGE);
 				}else {
+					JOptionPane.showMessageDialog(null, "로그인에 성공했습니다.", "", JOptionPane.INFORMATION_MESSAGE);
 					dispose();
 					lf.setVisible(true);
 				}
@@ -74,14 +80,14 @@ public class UserFrame extends JFrame{
 					if (signup.jtf_id.getText().length() > 10 || signup.jtf_id.getText().length() < 6
 							|| signup.jtf_pw.getText().length() > 10 || signup.jtf_pw.getText().length() < 4
 							|| signup.jtf_name.getText().length() > 10 || signup.jtf_name.getText().length() < 3) {
-						JOptionPane.showMessageDialog(null, "회원가입에 실패했습니다.", "실패 메시지", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "회원가입에 실패했습니다.", "", JOptionPane.INFORMATION_MESSAGE);
 					}else {
 						boolean signUpSuccess = suapi.postSign(signup.jtf_id.getText(), signup.jtf_name.getText(), signup.jtf_pw.getText());
 						if(signUpSuccess) {
-							JOptionPane.showMessageDialog(null, "회원가입에 성공했습니다.", "성공 메시지", JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.showMessageDialog(null, "회원가입에 성공했습니다.", "", JOptionPane.INFORMATION_MESSAGE);
 							cardLayout.show(user, "panel login");
 						}else {
-							JOptionPane.showMessageDialog(null, "회원가입에 실패했습니다.", "실패 메시지", JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.showMessageDialog(null, "회원가입에 실패했습니다.", "", JOptionPane.INFORMATION_MESSAGE);
 						}
 					}
 				}
