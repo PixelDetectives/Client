@@ -21,6 +21,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 public class UserLoginFrame extends JPanel {
@@ -28,7 +29,7 @@ public class UserLoginFrame extends JPanel {
     JLabel jlb_id;
     JLabel jlb_pw;
     JTextField jtf_id;
-    JTextField jtf_pw;
+    JPasswordField jtf_pw;
     JButton jbt_login;
     JButton jbt_signup;
     
@@ -67,7 +68,8 @@ public class UserLoginFrame extends JPanel {
         jlb_pw.setBorder(BorderFactory.createEmptyBorder(0, 50, 0, 50));
         jtf_id = new JTextField();
         jtf_id.setPreferredSize(new Dimension(300, 30));
-        jtf_pw = new JTextField();
+        jtf_pw = new JPasswordField();
+        jtf_pw.setEchoChar('*'); 
         jtf_pw.setPreferredSize(new Dimension(300, 30));
         jbt_login = new JButton("로그인");
         jbt_login.setFont(jbt_login.getFont().deriveFont(30f));
