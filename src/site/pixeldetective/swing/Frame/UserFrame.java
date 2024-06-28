@@ -18,6 +18,7 @@ public class UserFrame extends JFrame{
 	public JPanel user;
 	public SignUpApi suapi = new SignUpApi();
 	
+	
 	public UserFrame() {
 		setTitle("픽셀탐정단");
 		
@@ -50,13 +51,20 @@ public class UserFrame extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(signup.isVisible()) {
-					boolean signUpSuccess = suapi.postSign(signup.jtf_id.getText(), signup.jtf_name.getText(), signup.jtf_pw.getText());
-					if(signUpSuccess) {
-						JOptionPane.showMessageDialog(null, "회원가입에 성공했습니다.", "성공 메시지", JOptionPane.INFORMATION_MESSAGE);
-						cardLayout.show(user, "panel login");
-					}else {
+					if (signup.jtf_id.getText().length() > 10 || signup.jtf_id.getText().length() < 6
+							|| signup.jtf_pw.getText().length() > 10 || signup.jtf_pw.getText().length() < 4
+							|| signup.jtf_name.getText().length() > 10 || signup.jtf_name.getText().length() < 3) {
 						JOptionPane.showMessageDialog(null, "회원가입에 실패했습니다.", "실패 메시지", JOptionPane.INFORMATION_MESSAGE);
+					}else {
+						boolean signUpSuccess = suapi.postSign(signup.jtf_id.getText(), signup.jtf_name.getText(), signup.jtf_pw.getText());
+						if(signUpSuccess) {
+							JOptionPane.showMessageDialog(null, "회원가입에 성공했습니다.", "성공 메시지", JOptionPane.INFORMATION_MESSAGE);
+							cardLayout.show(user, "panel login");
+						}else {
+							JOptionPane.showMessageDialog(null, "회원가입에 실패했습니다.", "실패 메시지", JOptionPane.INFORMATION_MESSAGE);
+						}
 					}
+					
 				}
 			}
 		});
@@ -69,7 +77,6 @@ public class UserFrame extends JFrame{
 				}
 			}
 		});
-		
 		
 	}
 }
