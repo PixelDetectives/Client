@@ -4,12 +4,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GradientPaint;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -26,6 +28,16 @@ public class UserSignUpFrame extends JPanel{
 	JTextField jtf_name;
 	JButton jbt_signup;
 	JButton jbt_cancel;
+	
+	ImageIcon backgroundImage;
+
+    public void paintComponent(Graphics g) {
+    	backgroundImage = new ImageIcon("resource/image/login.png");
+        JPanel background = new JPanel();
+    	g.drawImage(backgroundImage.getImage(), 0, 0, null);
+    	setOpaque(false);
+    	super.paintComponent(g);
+    }
 	
 	public UserSignUpFrame() {
 		
@@ -82,8 +94,6 @@ public class UserSignUpFrame extends JPanel{
 		jpn_jbt.add(jbt_signup);
 		jpn_jbt.add(new JLabel("                                                                          "));
 		jpn_jbt.add(jbt_cancel);
-		
-		setBackground(new Color(53,114,239));
 		
         jbt_signup.setBackground(Color.white);
         jbt_cancel.setBackground(Color.white);

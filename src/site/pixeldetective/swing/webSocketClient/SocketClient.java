@@ -3,12 +3,22 @@ package site.pixeldetective.swing.webSocketClient;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONObject;
+import site.pixeldetective.swing.Panel.ChatPanel;
+import site.pixeldetective.swing.Panel.UserListPanel;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 public class SocketClient extends WebSocketClient {
+
+    // 소켓 통신이 필요한 변수들을 선언
+   public ChatPanel chatPanel;
+   public UserListPanel userListPanel;
+
+
+
 
     private static final String SERVER_URI = "ws://localhost:9001";
     private CompletableFuture<String> responseFuture;
@@ -22,9 +32,19 @@ public class SocketClient extends WebSocketClient {
         System.out.println("Connected to WebSocket server");
     }
 
+
+    //서버로 부터 메세지가 오면 메세지를 가지고 type을 파악하고
+    //해당되는 GUI의 메서드를 호출 해서 요소를 출력하거나 더한다.
     @Override
     public void onMessage(String message) {
-        System.out.println("Received message: " + message);
+        System.out.println("onMessage 시작 !!!");
+
+        System.out.println("전달 받은 messase 시작 ");
+        System.out.println(message);
+        System.out.println("messase 끝 ");
+
+
+        //chatPanel.appendToChatArea(chatConvertor(message));
 
 
         if (responseFuture != null) {
@@ -121,25 +141,31 @@ public class SocketClient extends WebSocketClient {
 
     public static String chatConvertor(String jsonString) {
         try {
+
+
             JSONObject jsonObject = new JSONObject(jsonString);
             String type = jsonObject.getString("type");
 
             if ("newChatMessage".equals(type)) {
+                System.out.println("type = newChatMessage ");
+                System.out.println("joinString =");
+                System.out.println(jsonString);
+
                 String data = jsonObject.getString("data");
                 JSONObject dataObject = new JSONObject(data);
                 String nickname = dataObject.getString("nickname");
                 String message = dataObject.getString("message");
-                String result = nickname +" : "+message;
+
+                System.out.println(nickname);
+                System.out.println(message);
+                String result = nickname +"  "+message;
                 System.out.println("출력:"+nickname +" : "+message);
                 return result;
-            } else {
-                System.out.println("Unknown message type: " + type);
-                return "Unknown message type: " + type;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+
         }
-        return "chatConvertor 실행도중에러발생";
+        return null;
     }
 
 }
