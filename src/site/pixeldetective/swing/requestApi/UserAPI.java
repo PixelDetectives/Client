@@ -17,13 +17,15 @@ public class UserAPI {
             jsonObject.put("u_pw", uPw);
             Map<String, String> headers = new HashMap<String, String>();
             headers.put("Content-Type", "application/json; charset=UTF-8");
+            System.out.println("before send");
             String response = hc.post(jsonObject, headers);
-
+            System.out.println("after send");
             JSONObject jsonResponse = new JSONObject(response);
+            System.out.println("response : " + jsonResponse.toString());
             String result = jsonResponse.getString("message");
             String jwt = jsonResponse.getString("jwt");
             // u_id u_name u_num / 로비프레임   검증
-
+            
 
             if("성공".equals(result)){
                 System.out.println(result);
