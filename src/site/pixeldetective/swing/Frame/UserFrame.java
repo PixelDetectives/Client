@@ -6,12 +6,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import site.pixeldetective.swing.requestApi.SignUpApi;
+import site.pixeldetective.swing.requestApi.UserAPI;
 
 public class UserFrame extends JFrame{
 	public UserSignUpFrame signup;
 	public UserLoginFrame login;
 	public JPanel user;
+	public SignUpApi suapi = new SignUpApi();
 	
 	
 	public UserFrame() {
@@ -23,22 +28,21 @@ public class UserFrame extends JFrame{
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-		this.user = new JPanel();
+		user = new JPanel();
 		CardLayout cardLayout = new CardLayout();
-		this.user.setLayout(cardLayout);
-		add(this.user);
+		user.setLayout(cardLayout);
+		add(user);
 		
-		this.signup = new UserSignUpFrame();
-		this.login = new UserLoginFrame();
-		this.user.add(login, "panel login");
-		this.user.add(signup, "panel signup");
+		signup = new UserSignUpFrame();
+		login = new UserLoginFrame();
+		user.add(login, "panel login");
+		user.add(signup, "panel signup");
 		
 		login.jbt_signup.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(login.isVisible()) {
 					cardLayout.show(user,"panel signup");
-				}else {
 				}
 			}
 		});
@@ -47,8 +51,20 @@ public class UserFrame extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(signup.isVisible()) {
-					cardLayout.show(user, "panel login");
-				}else {
+					if (signup.jtf_id.getText().length() > 10 || signup.jtf_id.getText().length() < 6
+							|| signup.jtf_pw.getText().length() > 10 || signup.jtf_pw.getText().length() < 4
+							|| signup.jtf_name.getText().length() > 10 || signup.jtf_name.getText().length() < 3) {
+						JOptionPane.showMessageDialog(null, "회원가입에 실패했습니다.", "실패 메시지", JOptionPane.INFORMATION_MESSAGE);
+					}else {
+						boolean signUpSuccess = suapi.postSign(signup.jtf_id.getText(), signup.jtf_name.getText(), signup.jtf_pw.getText());
+						if(signUpSuccess) {
+							JOptionPane.showMessageDialog(null, "회원가입에 성공했습니다.", "성공 메시지", JOptionPane.INFORMATION_MESSAGE);
+							cardLayout.show(user, "panel login");
+						}else {
+							JOptionPane.showMessageDialog(null, "회원가입에 실패했습니다.", "실패 메시지", JOptionPane.INFORMATION_MESSAGE);
+						}
+					}
+					
 				}
 			}
 		});
@@ -58,11 +74,9 @@ public class UserFrame extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				if(signup.isVisible()) {
 					cardLayout.show(user, "panel login");
-				}else {
 				}
 			}
 		});
-		
 		
 	}
 }
