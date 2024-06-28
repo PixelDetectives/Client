@@ -4,6 +4,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,9 +15,11 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -28,10 +31,20 @@ public class UserLoginFrame extends JPanel {
     JTextField jtf_pw;
     JButton jbt_login;
     JButton jbt_signup;
+    
+    ImageIcon backgroundImage;
 
+    public void paintComponent(Graphics g) {
+    	backgroundImage = new ImageIcon("resource/image/login.png");
+        JPanel background = new JPanel();
+    	g.drawImage(backgroundImage.getImage(), 0, 0, null);
+    	setOpaque(false);
+    	super.paintComponent(g);
+    }
+    
     public UserLoginFrame() {
-        setLayout(new FlowLayout());
-
+    	setLayout(new FlowLayout());
+        
         JPanel jpn_logo = new JPanel();
         jpn_logo.setBorder(BorderFactory.createEmptyBorder(80, 0, 0, 0));
         JPanel jpn_jtf = new JPanel(new GridLayout(3,2));
@@ -76,7 +89,7 @@ public class UserLoginFrame extends JPanel {
         jpn_jbt.add(new JLabel("                                                                          "));
         jpn_jbt.add(jbt_signup); 
         
-        setBackground(new Color(53,114,239));
+
         jbt_login.setBackground(Color.white);
         jbt_signup.setBackground(Color.white);
         jlb_logo.setForeground(Color.white);
@@ -89,7 +102,8 @@ public class UserLoginFrame extends JPanel {
         
     }
 
-    public static void main(String[] args) {
+
+	public static void main(String[] args) {
         new UserLoginFrame();
     }
 }

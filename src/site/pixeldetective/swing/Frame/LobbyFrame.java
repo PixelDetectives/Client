@@ -16,7 +16,7 @@ public class LobbyFrame extends JFrame {
         setLocationRelativeTo(null);
 
         add(new LobbyPanel());
-        setVisible(true);
+        setVisible(false);
     }
 
 

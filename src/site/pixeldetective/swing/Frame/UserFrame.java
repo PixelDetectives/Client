@@ -44,8 +44,7 @@ public class UserFrame extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (userapi.postLogin(login.jtf_id.getText(), login.jtf_pw.getText()) == false
-						|| login.jtf_id.getText().length() > 10 || login.jtf_id.getText().length() < 6
+				if ( login.jtf_id.getText().length() > 10 || login.jtf_id.getText().length() < 6
 						|| login.jtf_pw.getText().length() > 10 || login.jtf_pw.getText().length() < 4) {
 					JOptionPane.showMessageDialog(null, "로그인에 실패했습니다.", "실패 메시지", JOptionPane.INFORMATION_MESSAGE);
 				}else {
