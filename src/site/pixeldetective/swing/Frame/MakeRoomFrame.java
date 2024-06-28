@@ -14,7 +14,7 @@ public class MakeRoomFrame extends JFrame {
         rsp.mrf = this;
         add(rsp);
 
-        setVisible(true);
+        setVisible(false);
         setResizable(false);
         setSize(1280, 720);
     }

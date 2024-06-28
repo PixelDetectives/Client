@@ -3,6 +3,7 @@ package site.pixeldetective.swing.Panel;
 import site.pixeldetective.swing.Frame.LobbyFrame;
 import site.pixeldetective.swing.Frame.MakeRoomFrame;
 import site.pixeldetective.swing.requestApi.MakeRoomAPI;
+import site.pixeldetective.swing.webSocketClient.SocketClient2;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -23,7 +24,7 @@ public class RoomSettingPanel extends JPanel{
     private JButton yesBtn;
     private JButton noBtn;
 
-    private MakeRoomFrame makeRoomFrame;
+    SocketClient2 sc;
 
 
     public RoomSettingPanel(){
@@ -180,13 +181,57 @@ public class RoomSettingPanel extends JPanel{
                     return;
                 }
 
-                MakeRoomAPI api = new MakeRoomAPI();
-                api.postRoom(inputRoomTitle,selectedButtonText , 1, 2, 3);
-                System.out.println("방이름 : "+roomTextField.getText()+"\n난이도 : "+selectedButtonText);
+                try {
+                    // 방 생성 및 매칭 요청
+                    MakeRoomAPI api = new MakeRoomAPI();
+                    api.postRoom(inputRoomTitle, selectedButtonText, 1, 2, 3);
+                    System.out.println("방이름 : " + roomTextField.getText() + "\n난이도 : " + selectedButtonText);
 
-                JOptionPane.showMessageDialog(null, "매칭중 입니다 ...", "매칭중", JOptionPane.INFORMATION_MESSAGE);
+                    // 매칭 중 상태를 표시하는 모달 다이얼로그
+                    JDialog matchingDialog = new JDialog((Frame) null, "매칭중", true);
+                    matchingDialog.setLayout(new BorderLayout());
 
+                    JLabel matchingLabel = new JLabel("매칭중 입니다 ...", SwingConstants.CENTER);
+                    matchingDialog.add(matchingLabel, BorderLayout.CENTER);
 
+                    JButton cancelButton = new JButton("매칭 취소");
+                    matchingDialog.add(cancelButton, BorderLayout.SOUTH);
+
+                    cancelButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            try {
+                                if (sc != null) {
+                                    sc.cancelMatching();
+                                }
+                                matchingDialog.dispose();
+                                mrf.setVisible(true); // MakeRoomFrame 다시 표시
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                    });
+
+                    matchingDialog.setSize(300, 200);
+                    matchingDialog.setLocationRelativeTo(null);
+                    matchingDialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+                    matchingDialog.setVisible(true);
+
+                    // 웹소켓을 통해 매칭 요청
+                    sc = new SocketClient2();
+                    sc.connect();
+                    sc.createRoom(inputRoomTitle, difficultyToInt(selectedButtonText));
+                    sc.setMatchingDialog(matchingDialog);
+                    sc.waitForMatch();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+
+//                MakeRoomAPI api = new MakeRoomAPI();
+//                api.postRoom(inputRoomTitle,selectedButtonText , 1, 2, 3);
+//                System.out.println("방이름 : "+roomTextField.getText()+"\n난이도 : "+selectedButtonText);
+//
+//                JOptionPane.showMessageDialog(null, "매칭중 입니다 ...", "매칭중", JOptionPane.INFORMATION_MESSAGE);
             }
         });
 
@@ -202,6 +247,19 @@ public class RoomSettingPanel extends JPanel{
             }
         }
         return null;
+    }
+
+    private int difficultyToInt(String difficulty) {
+        switch (difficulty) {
+            case "어려움":
+                return 3;
+            case "보통":
+                return 2;
+            case "쉬움":
+                return 1;
+            default:
+                return 0;
+        }
     }
 
 
