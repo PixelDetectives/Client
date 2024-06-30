@@ -1,4 +1,4 @@
-package site.pixeldetective.swing.Frame;
+package site.pixeldetective.swing.Panel;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -18,16 +18,16 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class UserSignUpFrame extends JPanel{
-	JLabel jlb_logo;
-	JLabel jlb_id;
-	JLabel jlb_pw;
-	JLabel jlb_name;
-	JTextField jtf_id;
-	JTextField jtf_pw;
-	JTextField jtf_name;
-	JButton jbt_signup;
-	JButton jbt_cancel;
+public class SignUpPanel extends JPanel{
+	public JLabel jlb_logo;
+	public JLabel jlb_id;
+	public JLabel jlb_pw;
+	public JLabel jlb_name;
+	public JTextField jtf_id;
+	public JTextField jtf_pw;
+	public JTextField jtf_name;
+	public JButton jbt_signup;
+	public JButton jbt_cancel;
 	
 	ImageIcon backgroundImage;
 
@@ -39,7 +39,7 @@ public class UserSignUpFrame extends JPanel{
     	super.paintComponent(g);
     }
 	
-	public UserSignUpFrame() {
+	public SignUpPanel() {
 		
 		setLayout(new FlowLayout());
 
