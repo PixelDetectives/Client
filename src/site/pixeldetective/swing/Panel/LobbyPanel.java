@@ -14,7 +14,7 @@ import java.net.URISyntaxException;
 public class LobbyPanel extends JPanel {
 
     public LobbyFrame lf;
-
+    public String jwt;
 
     JScrollPane scrollPane;
     UserListPanel panel1;

@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.Socket;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -13,15 +14,29 @@ import site.pixeldetective.swing.requestApi.SignUpApi;
 import site.pixeldetective.swing.requestApi.UserAPI;
 
 public class UserFrame extends JFrame{
+
+
+	public String jwt;
 	public UserSignUpFrame signup;
 	public UserLoginFrame login;
 	public JPanel user;
 	public SignUpApi suapi = new SignUpApi();
-	public LobbyFrame lf = new LobbyFrame();
+	public LobbyFrame lf;
 
 	public UserAPI userapi = new UserAPI();
 	
 	public UserFrame() {
+
+		MakeRoomFrame makeRoomFrame = new MakeRoomFrame();
+		makeRoomFrame.setVisible(false);
+		lf = new LobbyFrame();
+		lf.setVisible(false);
+		makeRoomFrame.lobbyFrame = lf;
+		lf.makeRoomFrame = makeRoomFrame;
+
+
+
+
 		lf.setVisible(false);
 		setTitle("픽셀탐정단");
 		
@@ -51,15 +66,21 @@ public class UserFrame extends JFrame{
 				System.out.println(login.jtf_id.getText());
 				System.out.println(login.jtf_pw.getText());
 				System.out.println("login clicked");
-				if (userapi.postLogin(login.jtf_id.getText(), login.jtf_pw.getText()) == false
+				if (userapi.postLogin(login.jtf_id.getText(), login.jtf_pw.getText() , UserFrame.this) == false
 						|| login.jtf_id.getText().length() > 10 || login.jtf_id.getText().length() < 6
 						|| login.jtf_pw.getText().length() > 10 || login.jtf_pw.getText().length() < 4) {
 					JOptionPane.showMessageDialog(null, "로그인에 실패했습니다.", "", JOptionPane.INFORMATION_MESSAGE);
 				}else {
 					JOptionPane.showMessageDialog(null, "로그인에 성공했습니다.", "", JOptionPane.INFORMATION_MESSAGE);
 					dispose();
+					lf.jwt = jwt;
+					lf.lp.jwt = jwt;
+					lf.lp.socketClient.jwt = jwt;
+					System.out.println("소켓의 jwt"+lf.lp.socketClient.jwt);
+
 					lf.setVisible(true);
 				}
+
 				
 			}
 		});

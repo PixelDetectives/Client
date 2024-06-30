@@ -47,19 +47,35 @@ public class SocketClient extends WebSocketClient {
     public void onMessage(String receiveM) {
 
         System.out.println("Received message: " + receiveM);
+        //System.out.println(jwt);
 
         try {
             JSONObject jsonObject = new JSONObject(receiveM); // 전체 메시지를 JSONObject로 파싱
             String type = jsonObject.getString("type");
 
             switch (type) {
-                case "newChat":
+
+                case "break":
+
+                    break;
+                case "newChatMessage":
                     System.out.println("newChat 실행");
-                    JSONObject dataObject = jsonObject.getJSONObject("data");
+                    // 첫 번째 파싱: 전체 JSON 문자열
+                    String dataString = jsonObject.getString("data");
+                    System.out.println(dataString);
+
+                    // 두 번째 파싱: data 필드 내 JSON 문자열
+                    JSONObject dataObject = new JSONObject(dataString);
+                    System.out.println(dataObject.getString("nickname"));
                     String nickname = dataObject.getString("nickname");
+                    System.out.println(dataObject.getString("message"));
                     String message = dataObject.getString("message");
                     String result = nickname + " " + message;
+
+                    // chatPanel 객체의 appendToChatArea 메소드 호출
+                    chatPanel.appendToChatArea("임시로 한번 호출 ");
                     chatPanel.appendToChatArea(result);
+                    System.out.println("최종 result " + result); // 디버깅용 출력
                     break;
                 case "currentUsers" :
                     System.out.println("currentUsers 실행");
@@ -82,22 +98,21 @@ public class SocketClient extends WebSocketClient {
                     String RoomData = jsonObject.getString("data");
                     JSONArray roomsArray = new JSONArray(RoomData);
 
-                    //현재 룸 목록을 삭제
-                    //gameChoicePanel.setEmpty();
+                    // 현재 룸 목록을 삭제
+                    gameChoicePanel.setEmpty();
                     for (int j = 0; j < roomsArray.length(); j++) {
-                        String roomDataStr = roomsArray.getString(j);
-                        JSONObject userData = new JSONObject(roomDataStr);
-                        String r_id = userData.getString("r_id");
+                        JSONObject userData = roomsArray.getJSONObject(j);
+                        int r_id = userData.getInt("r_id");
                         String r_name = userData.getString("r_name");
-                        String r_difficulty = userData.getString("r_difficulty");
-                        // 여기서 유저 정보를 userListPanel 등에 추가하는 코드를 작성
+                        int r_difficulty = userData.getInt("r_difficulty");
+
+                        // 디버깅용 출력
                         System.out.println("r_id: " + r_id + ", r_name: " + r_name + ", r_difficulty: " + r_difficulty);
 
-                        Room room = new Room(Integer.parseInt(r_id),Integer.parseInt(r_difficulty),r_name);
-                        // 룸 패널에 룸을 추가
+                        // Room 객체 생성 및 gameChoicePanel에 추가
+                        Room room = new Room(r_id, r_difficulty, r_name);
                         gameChoicePanel.addRoom(room);
                     }
-
                     break;
                 default:
                     // 처리할 타입이 없을 경우의 로직
@@ -106,10 +121,13 @@ public class SocketClient extends WebSocketClient {
             }
         } catch (JSONException e) {
             System.err.println("Error parsing JSON message: " + e.getMessage());
+            System.out.println("-------");
+            System.out.println(receiveM);
+            System.out.println();
+            System.out.println("--------");
             System.out.println("JSON타입이 이니여라");
         }
     }
-
 
     @Override
     public void onClose(int code, String reason, boolean remote) {
@@ -138,6 +156,9 @@ public class SocketClient extends WebSocketClient {
     public String sendHello() throws Exception {
         JSONObject request = new JSONObject();
         request.put("command", "hello");
+        if(!Objects.isNull(jwt)) {
+            request.put("token", jwt);
+        }
         responseFuture = new CompletableFuture<>();
         sendMessage(request);
         return responseFuture.get();
@@ -146,6 +167,9 @@ public class SocketClient extends WebSocketClient {
     public void sendGetUserCount() throws Exception {
         JSONObject request = new JSONObject();
         request.put("command", "getUserCount");
+        if(!Objects.isNull(jwt)) {
+            request.put("token", jwt);
+        }
         sendMessage(request);
     }
 
@@ -154,6 +178,9 @@ public class SocketClient extends WebSocketClient {
         request.put("command", "sendChat");
         request.put("nickname", nickname);
         request.put("message", message);
+        if(!Objects.isNull(jwt)) {
+            request.put("token", jwt);
+        }
         responseFuture = new CompletableFuture<>();
         sendMessage(request);
         return responseFuture.get();
@@ -162,6 +189,9 @@ public class SocketClient extends WebSocketClient {
     public void getCurrentUserList() throws Exception {
         JSONObject request = new JSONObject();
         request.put("command", "getCurrentUserList");
+        if(!Objects.isNull(jwt)) {
+            request.put("token", jwt);
+        }
         sendMessage(request);
     }
 
@@ -169,12 +199,18 @@ public class SocketClient extends WebSocketClient {
 //    public void quickMatching() throws Exception {
 //        JSONObject request = new JSONObject();
 //        request.put("command", "quickMatching");
+//        if(!Objects.isNull(jwt)) {
+//        request.put("token", jwt);
+//    }
 //        sendMessage(request);
 //    }
 
     public void cancelMatching() throws Exception {
         JSONObject request = new JSONObject();
         request.put("command", "cancleMatching");
+        if(!Objects.isNull(jwt)) {
+            request.put("token", jwt);
+        }
         sendMessage(request);
     }
 
@@ -182,7 +218,10 @@ public class SocketClient extends WebSocketClient {
         JSONObject request = new JSONObject();
         request.put("command", "roomCreate");
         request.put("r_name", roomName);
-        request.put("r_difficulty", difficulty);
+        request.put("r_difficulty", difficulty);// 0,1.2
+        if(!Objects.isNull(jwt)) {
+            request.put("token", jwt);
+        }
         sendMessage(request);
     }
 
@@ -190,12 +229,18 @@ public class SocketClient extends WebSocketClient {
         JSONObject request = new JSONObject();
         request.put("command", "joinRoom");
         request.put("currentUserSessionId1", currentUserSessionId1);
+        if(!Objects.isNull(jwt)) {
+            request.put("token", jwt);
+        }
         sendMessage(request);
     }
 
     public void getCurrentRoomList() throws Exception {
         JSONObject request = new JSONObject();
         request.put("command", "getCurrentRoomList");
+        if(!Objects.isNull(jwt)) {
+            request.put("token", jwt);
+        }
         sendMessage(request);
     }
 
@@ -203,7 +248,15 @@ public class SocketClient extends WebSocketClient {
         JSONObject request = new JSONObject();
         request.put("r_id", r_id);
         request.put("command", "roomDelete");
+        if(!Objects.isNull(jwt)) {
+            request.put("token", jwt);
+        }
         sendMessage(request);
+    }
+
+    public void getJwt(){
+
+
     }
 
 

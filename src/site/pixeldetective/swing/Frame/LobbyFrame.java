@@ -10,10 +10,13 @@ import java.util.ArrayList;
 
 public class LobbyFrame extends JFrame {
 
+    String jwt;
+    public LobbyPanel lp;
 
     public MakeRoomFrame makeRoomFrame;
     public LobbyFrame() {
-        LobbyPanel lp = new LobbyPanel();
+         lp = new LobbyPanel();
+
         setTitle("LobbyFrame");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1280, 720);
