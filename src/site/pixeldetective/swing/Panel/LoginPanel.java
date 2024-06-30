@@ -1,4 +1,4 @@
-package site.pixeldetective.swing.Frame;
+package site.pixeldetective.swing.Panel;
 
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -24,14 +24,14 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class UserLoginFrame extends JPanel {
-    JLabel jlb_logo;
-    JLabel jlb_id;
-    JLabel jlb_pw;
-    JTextField jtf_id;
-    JPasswordField jtf_pw;
-    JButton jbt_login;
-    JButton jbt_signup;
+public class LoginPanel extends JPanel {
+    public JLabel jlb_logo;
+    public JLabel jlb_id;
+    public JLabel jlb_pw;
+    public JTextField jtf_id;
+    public JPasswordField jtf_pw;
+    public JButton jbt_login;
+    public JButton jbt_signup;
     
     ImageIcon backgroundImage;
 
@@ -43,7 +43,7 @@ public class UserLoginFrame extends JPanel {
     	super.paintComponent(g);
     }
     
-    public UserLoginFrame() {
+    public LoginPanel() {
     	setLayout(new FlowLayout());
         
         JPanel jpn_logo = new JPanel();
@@ -104,9 +104,5 @@ public class UserLoginFrame extends JPanel {
         
     }
 
-
-	public static void main(String[] args) {
-        new UserLoginFrame();
-    }
 }
 

@@ -9,15 +9,15 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import site.pixeldetective.swing.Panel.LobbyPanel;
+import site.pixeldetective.swing.Panel.LoginPanel;
+import site.pixeldetective.swing.Panel.SignUpPanel;
 import site.pixeldetective.swing.requestApi.SignUpApi;
 import site.pixeldetective.swing.requestApi.UserAPI;
 
 public class UserFrame extends JFrame{
-	public UserSignUpFrame signup;
-	public UserLoginFrame login;
+	public SignUpPanel signup;
+	public LoginPanel login;
 	public JPanel user;
-	public LobbyPanel lobby;
 	public SignUpApi suapi = new SignUpApi();
 	public UserAPI userapi = new UserAPI();
 	
@@ -35,12 +35,10 @@ public class UserFrame extends JFrame{
 		user.setLayout(cardLayout);
 		add(user);
 		
-		signup = new UserSignUpFrame();
-		login = new UserLoginFrame();
-		lobby = new LobbyPanel();
+		signup = new SignUpPanel();
+		login = new LoginPanel();
 		user.add(login, "panel login");
 		user.add(signup, "panel signup");
-		user.add(lobby, "panel lobby");
 		
 		// 로그인 페이지 > 게임 로비 페이지
 		login.jbt_login.addActionListener(new ActionListener() {
@@ -57,7 +55,7 @@ public class UserFrame extends JFrame{
 					JOptionPane.showMessageDialog(null, "로그인에 실패했습니다.", "", JOptionPane.INFORMATION_MESSAGE);
 				}else {
 					JOptionPane.showMessageDialog(null, "로그인에 성공했습니다.", "", JOptionPane.INFORMATION_MESSAGE);
-					cardLayout.show(user, "panel lobby");
+					setVisible(false);
 				}
 				
 			}
