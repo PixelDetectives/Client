@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) {
 
         new UserFrame();
-        // new GameFrame();
+//         new GameFrame();
 //        MakeRoomFrame makeRoomFrame = new MakeRoomFrame();
 //        makeRoomFrame.setVisible(false);
 //        LobbyFrame lobbyFrame = new LobbyFrame();

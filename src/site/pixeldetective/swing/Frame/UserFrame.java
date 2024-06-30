@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import site.pixeldetective.swing.Panel.LobbyPanel;
 import site.pixeldetective.swing.requestApi.SignUpApi;
 import site.pixeldetective.swing.requestApi.UserAPI;
 
@@ -16,13 +17,11 @@ public class UserFrame extends JFrame{
 	public UserSignUpFrame signup;
 	public UserLoginFrame login;
 	public JPanel user;
+	public LobbyPanel lobby;
 	public SignUpApi suapi = new SignUpApi();
-	public LobbyFrame lf = new LobbyFrame();
-
 	public UserAPI userapi = new UserAPI();
 	
 	public UserFrame() {
-		lf.setVisible(false);
 		setTitle("픽셀탐정단");
 		
         setSize(1280, 720);
@@ -38,9 +37,10 @@ public class UserFrame extends JFrame{
 		
 		signup = new UserSignUpFrame();
 		login = new UserLoginFrame();
+		lobby = new LobbyPanel();
 		user.add(login, "panel login");
 		user.add(signup, "panel signup");
-		
+		user.add(lobby, "panel lobby");
 		
 		// 로그인 페이지 > 게임 로비 페이지
 		login.jbt_login.addActionListener(new ActionListener() {
@@ -57,8 +57,7 @@ public class UserFrame extends JFrame{
 					JOptionPane.showMessageDialog(null, "로그인에 실패했습니다.", "", JOptionPane.INFORMATION_MESSAGE);
 				}else {
 					JOptionPane.showMessageDialog(null, "로그인에 성공했습니다.", "", JOptionPane.INFORMATION_MESSAGE);
-					dispose();
-					lf.setVisible(true);
+					cardLayout.show(user, "panel lobby");
 				}
 				
 			}
