@@ -23,10 +23,7 @@ public class ChatPanel extends JPanel {
     public SocketClient socketClient;
 
 
-
-
     public ChatPanel()  {
-
 
         setLayout(new BorderLayout());
 
@@ -57,7 +54,7 @@ public class ChatPanel extends JPanel {
         // API 서버 생성
         ChatApi cApi = new ChatApi();
         // 서버 요청후 List 가져옴
-        ArrayList<Chat> cList = cApi.getChatList();
+        //ArrayList<Chat> cList = cApi.getChatList();
         // 초기화 채팅 리스트 실행
 //        getChatConstruct(cList);
 
@@ -83,17 +80,13 @@ public class ChatPanel extends JPanel {
 
         String nickname = nicknameLabel.getText().trim();
         String message = chatInputField.getText().trim();
-
-
         //1.서버에 보내는 채팅 닉네임 채팅 보내는 명령어
 
         // message의 내용이 없을 경우를 처리함
         if (!message.isEmpty() && message.length() < 30 ) {
-
             //1.서버에 보내는 채팅 닉네임 채팅 보내는 명령어
             String result = null;
             try {
-
                 result = socketClient.sendChatMessage(nickname, message);
 //                System.out.println("result === " +result);
 //                result = socketClient.chatConvertor(result);
@@ -134,12 +127,9 @@ public class ChatPanel extends JPanel {
     }
 
     public static void main(String[] args) throws URISyntaxException {
-
-        
         JFrame frame = new JFrame("Chat Panel");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(505, 388);
-
         ChatPanel chatPanel = new ChatPanel();
         chatPanel.appendToChatArea("호랑나비 : 감자맨");
         frame.add(chatPanel);

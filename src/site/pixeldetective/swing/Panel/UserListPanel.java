@@ -1,5 +1,6 @@
 package site.pixeldetective.swing.Panel;
 
+import site.pixeldetective.swing.etc.User;
 import site.pixeldetective.swing.webSocketClient.SocketClient;
 
 import javax.swing.*;
@@ -35,7 +36,7 @@ public class UserListPanel extends JPanel {
         userListPanel.setLayout(new BoxLayout(userListPanel, BoxLayout.Y_AXIS));
         userListPanel.setBackground(Color.WHITE);
 
-        setUserList(null);
+        setUserList(new User(123,"한수엽","join"));
 
 
         // 스크롤 패널 추가
@@ -49,13 +50,12 @@ public class UserListPanel extends JPanel {
         add(scrollPane);
     }
 
-    public void setUserList(String[] str) {
+    public void setEmpty(){
+        userListPanel.removeAll();
+    }
 
-        // 유저 이름 목록
-        // String[] userNames = getUserNames(); 이렇게 메서드를 호출해서 닉네임 리스트를 받아와야함.
-        String[] userNames = {"이재원", "박준수", "김예은", "조영훈", "변시우", "유저6", "유저7", "유저8", "유저9", "유저10", "유저11", "유저12", "유저13", "유저14", "유저15"};
-
-        for (String userName : userNames) {
+    public void setUserList(User user) {
+        String userName = user.getuName();
             JPanel userPanel = new JPanel();
             userPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
             userPanel.setOpaque(false);
@@ -69,6 +69,8 @@ public class UserListPanel extends JPanel {
             spacer.setMaximumSize(new Dimension(70, 31));
 
             JLabel userLabel = new JLabel(userName);
+            JLabel userId = new JLabel(userName);
+            userId.setVisible(false);
             userLabel.setOpaque(true); // JLabel 배경 설정을 위해 불투명하게 만듦
             userLabel.setBackground(Color.WHITE); // 배경 색상 설정
             userLabel.setPreferredSize(new Dimension(230, 31));
@@ -95,9 +97,7 @@ public class UserListPanel extends JPanel {
             userPanel.add(spacer);
             userPanel.add(userLabel);
             userListPanel.add(userPanel);
-
-        }
-
+          this.updateUI();
 
     }
 

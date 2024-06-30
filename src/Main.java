@@ -4,12 +4,15 @@ import site.pixeldetective.swing.HttpConnector.HttpConnector;
 
 public class Main {
     public static void main(String[] args) {
-//        new GameFrame();
-        MakeRoomFrame makeRoomFrame = new MakeRoomFrame();
-        LobbyFrame lobbyFrame = new LobbyFrame();
 
-        makeRoomFrame.lobbyFrame = lobbyFrame;
-        lobbyFrame.makeRoomFrame = makeRoomFrame;
+        new UserFrame();
+        // new GameFrame();
+//        MakeRoomFrame makeRoomFrame = new MakeRoomFrame();
+//        makeRoomFrame.setVisible(false);
+//        LobbyFrame lobbyFrame = new LobbyFrame();
+//        lobbyFrame.setVisible(false);
+//        makeRoomFrame.lobbyFrame = lobbyFrame;
+//        lobbyFrame.makeRoomFrame = makeRoomFrame;
 
         // HTTPConnector 생성 후 URL 경로 설정
 //        HttpConnector hc = new HttpConnector("/game");

@@ -81,8 +81,10 @@ public class LobbyPanel extends JPanel {
         }
         panel2.socketClient = socketClient;
         panel1.socketClient = socketClient;
+        panel4.socketClient = socketClient;
         socketClient.chatPanel = panel2;
         socketClient.userListPanel = panel1;
+        socketClient.gameChoicePanel = panel4;
 
         try {
             //socketClient.getCurrentUserList();

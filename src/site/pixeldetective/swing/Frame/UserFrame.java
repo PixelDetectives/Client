@@ -18,9 +18,11 @@ public class UserFrame extends JFrame{
 	public JPanel user;
 	public SignUpApi suapi = new SignUpApi();
 	public LobbyFrame lf = new LobbyFrame();
+
 	public UserAPI userapi = new UserAPI();
 	
 	public UserFrame() {
+		lf.setVisible(false);
 		setTitle("픽셀탐정단");
 		
         setSize(1280, 720);
