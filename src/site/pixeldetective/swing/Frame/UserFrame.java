@@ -10,6 +10,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import site.pixeldetective.swing.Panel.LoginPanel;
+import site.pixeldetective.swing.Panel.SignUpPanel;
 import site.pixeldetective.swing.requestApi.SignUpApi;
 import site.pixeldetective.swing.requestApi.UserAPI;
 
@@ -17,14 +19,14 @@ public class UserFrame extends JFrame{
 
 
 	public String jwt;
-	public UserSignUpFrame signup;
-	public UserLoginFrame login;
+	public SignUpPanel signup;
+	public LoginPanel login;
 	public JPanel user;
 	public SignUpApi suapi = new SignUpApi();
 	public LobbyFrame lf;
 
 	public UserAPI userapi = new UserAPI();
-	
+
 	public UserFrame() {
 
 		MakeRoomFrame makeRoomFrame = new MakeRoomFrame();
@@ -39,27 +41,27 @@ public class UserFrame extends JFrame{
 
 		lf.setVisible(false);
 		setTitle("픽셀탐정단");
-		
-        setSize(1280, 720);
-        setLocationRelativeTo(null);
-        setResizable(false);
-        setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+
+		setSize(1280, 720);
+		setLocationRelativeTo(null);
+		setResizable(false);
+		setVisible(true);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 		user = new JPanel();
 		CardLayout cardLayout = new CardLayout();
 		user.setLayout(cardLayout);
 		add(user);
-		
-		signup = new UserSignUpFrame();
-		login = new UserLoginFrame();
+
+		signup = new SignUpPanel();
+		login = new LoginPanel();
 		user.add(login, "panel login");
 		user.add(signup, "panel signup");
-		
-		
+
+
 		// 로그인 페이지 > 게임 로비 페이지
 		login.jbt_login.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("login clicked");
@@ -81,10 +83,10 @@ public class UserFrame extends JFrame{
 					lf.setVisible(true);
 				}
 
-				
+
 			}
 		});
-		
+
 		// 로그인 페이지 > 회원가입 페이지
 		login.jbt_signup.addActionListener(new ActionListener() {
 			@Override
@@ -94,7 +96,7 @@ public class UserFrame extends JFrame{
 				}
 			}
 		});
-		
+
 		// 회원가입 페이지 - 회원가입 기능
 		signup.jbt_signup.addActionListener(new ActionListener() {
 			@Override
@@ -116,7 +118,7 @@ public class UserFrame extends JFrame{
 				}
 			}
 		});
-		
+
 		// 회원가입 페이지 > 로그인 페이지
 		signup.jbt_cancel.addActionListener(new ActionListener() {
 			@Override
@@ -126,6 +128,6 @@ public class UserFrame extends JFrame{
 				}
 			}
 		});
-		
+
 	}
 }

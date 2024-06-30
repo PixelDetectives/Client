@@ -15,7 +15,7 @@ public class LobbyFrame extends JFrame {
 
     public MakeRoomFrame makeRoomFrame;
     public LobbyFrame() {
-         lp = new LobbyPanel();
+        lp = new LobbyPanel();
 
         setTitle("LobbyFrame");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
