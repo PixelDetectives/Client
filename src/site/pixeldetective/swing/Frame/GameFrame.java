@@ -8,6 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GameFrame extends JFrame {
+
+    public LobbyFrame lf;
+    public MakeRoomFrame mk;
     public GameFrame() {
         super("Game");
         setSize(1280, 720);
