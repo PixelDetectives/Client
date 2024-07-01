@@ -12,6 +12,7 @@ public class LobbyFrame extends JFrame {
 
     String jwt;
     public LobbyPanel lp;
+    public GameFrame gameFrame;
 
     public MakeRoomFrame makeRoomFrame;
     public LobbyFrame() {
