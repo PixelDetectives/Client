@@ -36,6 +36,7 @@ public class GamePanel extends JPanel {
     public CorrectPanel cp;
     public Timer t;
     public GameFrame gf;
+    public GameResult gr;
 
     public GamePanel() {
         setPreferredSize(new Dimension(1280, 720));

@@ -123,7 +123,6 @@ public class GameResult extends JFrame {
                 lp.setVisible(true); // LobbyFrame 보이도록 설정
                 gf.setVisible(false);
                 dispose(); // 현재 창 닫기
-
             }
         });
         buttonPanel.add(okButton);

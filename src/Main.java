@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) {
 
         new UserFrame();
-
+        // new GameFrame();
 
 
         // HTTPConnector 생성 후 URL 경로 설정

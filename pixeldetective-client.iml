@@ -9,7 +9,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="json-java" level="project" />
     <orderEntry type="library" name="Java-WebSocket-1.5.6" level="project" />
-    <orderEntry type="library" name="slf4j-api-1.7.36" level="project" />
     <orderEntry type="library" name="slf4j-simple-1.7.36" level="project" />
+    <orderEntry type="library" name="slf4j-api-1.7.36" level="project" />
   </component>
 </module>
