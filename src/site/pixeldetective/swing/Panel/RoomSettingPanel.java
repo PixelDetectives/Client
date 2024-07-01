@@ -3,6 +3,7 @@ package site.pixeldetective.swing.Panel;
 import site.pixeldetective.swing.Frame.LobbyFrame;
 import site.pixeldetective.swing.Frame.MakeRoomFrame;
 import site.pixeldetective.swing.requestApi.MakeRoomAPI;
+import site.pixeldetective.swing.webSocketClient.SocketClient;
 import site.pixeldetective.swing.webSocketClient.SocketClient2;
 
 import javax.swing.*;
@@ -24,7 +25,7 @@ public class RoomSettingPanel extends JPanel{
     private JButton yesBtn;
     private JButton noBtn;
 
-    SocketClient2 sc;
+    SocketClient sc;
 
 
     public RoomSettingPanel(){
@@ -217,12 +218,16 @@ public class RoomSettingPanel extends JPanel{
                     matchingDialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
                     matchingDialog.setVisible(true);
 
+                    // rooName
+                    // difficulty
+
+
                     // 웹소켓을 통해 매칭 요청
-                    sc = new SocketClient2();
+                    sc = new SocketClient();
                     sc.connect();
                     sc.createRoom(inputRoomTitle, difficultyToInt(selectedButtonText));
-                    sc.setMatchingDialog(matchingDialog);
-                    sc.waitForMatch();
+//                    sc.setMatchingDialog(matchingDialog);
+//                    sc.waitForMatch();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
