@@ -110,6 +110,8 @@ public class GameChoicePanel extends JPanel {
                 System.out.println(room.getrId() + ": 방을 플레이어가 선택했습니다.");
                 try {
                     socketClient.joinRoom(room.getrId());
+                    // Frame 전환 혹인 모달 띄우기
+
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }

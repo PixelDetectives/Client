@@ -66,15 +66,20 @@ public class SocketClient extends WebSocketClient {
 
                     // 두 번째 파싱: data 필드 내 JSON 문자열
                     JSONObject dataObject = new JSONObject(dataString);
+                    System.out.println("nickname 파싱 실행 시작 ");
                     System.out.println(dataObject.getString("nickname"));
                     String nickname = dataObject.getString("nickname");
+                    System.out.println("nickname 파싱 실행 끝 ");
+                    System.out.println("message 파싱 실행 시작 ");
                     System.out.println(dataObject.getString("message"));
                     String message = dataObject.getString("message");
+                    System.out.println("message 파싱 실행 끝 ");
+
                     String result = nickname + " " + message;
 
                     // chatPanel 객체의 appendToChatArea 메소드 호출
-                    chatPanel.appendToChatArea("임시로 한번 호출 ");
                     chatPanel.appendToChatArea(result);
+                    chatPanel.updateUI();
                     System.out.println("최종 result " + result); // 디버깅용 출력
                     break;
                 case "currentUsers" :
@@ -173,9 +178,11 @@ public class SocketClient extends WebSocketClient {
         sendMessage(request);
     }
 
-    public String sendChatMessage(String nickname, String message) throws Exception {
+    public void sendChat(String nickname, String message) throws Exception {
         JSONObject request = new JSONObject();
         request.put("command", "sendChat");
+        if(Objects.isNull(nickname))
+            nickname ="";
         request.put("nickname", nickname);
         request.put("message", message);
         if(!Objects.isNull(jwt)) {
@@ -183,7 +190,6 @@ public class SocketClient extends WebSocketClient {
         }
         responseFuture = new CompletableFuture<>();
         sendMessage(request);
-        return responseFuture.get();
     }
 
     public void getCurrentUserList() throws Exception {
@@ -207,7 +213,7 @@ public class SocketClient extends WebSocketClient {
 
     public void cancelMatching() throws Exception {
         JSONObject request = new JSONObject();
-        request.put("command", "cancleMatching");
+        request.put("command", "cancelMatching");
         if(!Objects.isNull(jwt)) {
             request.put("token", jwt);
         }

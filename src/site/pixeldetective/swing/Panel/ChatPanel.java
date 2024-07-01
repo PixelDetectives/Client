@@ -77,26 +77,21 @@ public class ChatPanel extends JPanel {
 
     //메서지 전송,Enter 버튼 클릭시 실행될 메서드
     private void sendChat() {
-
         String nickname = nicknameLabel.getText().trim();
         String message = chatInputField.getText().trim();
         //1.서버에 보내는 채팅 닉네임 채팅 보내는 명령어
-
         // message의 내용이 없을 경우를 처리함
-        if (!message.isEmpty() && message.length() < 30 ) {
+        if (!message.isEmpty() && message.length() < 30 && !nickname.isEmpty() ) {
             //1.서버에 보내는 채팅 닉네임 채팅 보내는 명령어
             String result = null;
             try {
-                result = socketClient.sendChatMessage(nickname, message);
-//                System.out.println("result === " +result);
-//                result = socketClient.chatConvertor(result);
+                System.out.println( " "+ message);
+                socketClient.sendChat("nickname", message);
+//                System.out.println("socketClient.sendChat result === " +result);
             }catch (Exception e){
                 e.printStackTrace();
+                System.out.println("에러 pdf flksadjfklsdjflsdjfdsjklafjlksdjfs");
             }
-//            if(!Objects.isNull(result)) {
-//                appendToChatArea(result);
-//            }
-            //2.보낸 채팅 내용을 지워준다.
             chatInputField.setText("");
             chatInputField.requestFocus();
         } else {
@@ -116,12 +111,16 @@ public class ChatPanel extends JPanel {
 
     // 메서지를 채팅창에 추가해주는 메서드
     public void appendToChatArea(String message) {
+        System.out.println("appendToChatArea");
         JLabel messageLabel = new JLabel(message);
         messageLabel.setBorder(BorderFactory.createEmptyBorder(0, 5, 2, 5));
+        System.out.println("add시작");
         chatArea.add(messageLabel);
         chatArea.add(Box.createRigidArea(new Dimension(0, 2))); // 메시지 간 간격
+        System.out.println("add끝");
         chatArea.revalidate();
         chatArea.repaint();
+        System.out.println("repaint,revalidate 끝");
         JScrollBar vertical = ((JScrollPane) chatArea.getParent().getParent()).getVerticalScrollBar();
         vertical.setValue(vertical.getMaximum());
     }

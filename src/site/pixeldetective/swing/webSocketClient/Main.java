@@ -86,8 +86,8 @@ public class Main {
                 try {
                     String nickname = nicknameField.getText();
                     String chatMessage = chatMessageField.getText();
-                    String response = webSocketClient.sendChatMessage(nickname, chatMessage);
-                    messageArea.append("Received response: " + response + "\n");
+                    webSocketClient.sendChat(nickname, chatMessage);
+                    //messageArea.append("Received response: " + response + "\n");
                 } catch (Exception ex) {
                     messageArea.append("Error sending chat message: " + ex.getMessage() + "\n");
                 }
