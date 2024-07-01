@@ -28,6 +28,7 @@ public class RoomSettingPanel extends JPanel{
     SocketClient sc;
 
 
+
     public RoomSettingPanel(){
         setLayout(new GridBagLayout());
         setBackground(Color.WHITE);
@@ -182,7 +183,15 @@ public class RoomSettingPanel extends JPanel{
                     return;
                 }
 
+
                 try {
+
+                    if(mrf.lobbyFrame.lp.socketClient != null){
+                        mrf.lobbyFrame.lp.socketClient.createRoom(roomTextField.getText(),difficultyToInt(selectedButtonText));
+                    }else{
+                        System.out.println(" mrf.socketClient이 없음");
+                        throw new Exception();
+                    }
                     // 방 생성 및 매칭 요청
                     //MakeRoomAPI api = new MakeRoomAPI();
                    // api.postRoom(inputRoomTitle, selectedButtonText, 1, 2, 3);
@@ -191,6 +200,8 @@ public class RoomSettingPanel extends JPanel{
                     // 매칭 중 상태를 표시하는 모달 다이얼로그
                     JDialog matchingDialog = new JDialog((Frame) null, "매칭중", true);
                     matchingDialog.setLayout(new BorderLayout());
+
+
 
                     JLabel matchingLabel = new JLabel("매칭중 입니다 ...", SwingConstants.CENTER);
                     matchingDialog.add(matchingLabel, BorderLayout.CENTER);
@@ -202,8 +213,8 @@ public class RoomSettingPanel extends JPanel{
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             try {
-                                if (sc != null) {
-                                    sc.cancelMatching();
+                                if (mrf.lobbyFrame.lp.socketClient  != null) {
+                                    mrf.lobbyFrame.lp.socketClient .cancelMatching();
                                 }
                                 matchingDialog.dispose();
                                 mrf.setVisible(true); // MakeRoomFrame 다시 표시
@@ -222,10 +233,8 @@ public class RoomSettingPanel extends JPanel{
                     // difficulty
 
 
-                    // 웹소켓을 통해 매칭 요청
-                    sc = new SocketClient();
-                    sc.connect();
-                    sc.createRoom(inputRoomTitle, difficultyToInt(selectedButtonText));
+
+                    mrf.lobbyFrame.lp.socketClient .createRoom(inputRoomTitle, difficultyToInt(selectedButtonText));
 //                    sc.setMatchingDialog(matchingDialog);
 //                    sc.waitForMatch();
                 } catch (Exception ex) {
