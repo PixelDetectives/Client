@@ -73,13 +73,9 @@ public class LobbyPanel extends JPanel {
         add(left);
         add(right);
 
-        try {
-            socketClient = new SocketClient();
-            socketClient.connect();
+        socketClient = SocketClient.getInstance();
+        socketClient.connect();
 
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
         panel2.socketClient = socketClient;
         panel1.socketClient = socketClient;
         panel4.socketClient = socketClient;

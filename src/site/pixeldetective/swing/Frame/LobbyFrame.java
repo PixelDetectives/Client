@@ -26,6 +26,7 @@ public class LobbyFrame extends JFrame {
         add(lp);
         setVisible(false);
         makeRoomFrame = new MakeRoomFrame();
+        gameFrame = new GameFrame();
     }
 
     public void changeFrame() {

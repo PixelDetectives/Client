@@ -43,16 +43,10 @@ public class Main {
         JButton chatButton = new JButton("Send Chat");
         panel.add(chatButton);
 
-
-
         connectButton.addActionListener(e -> {
-            try {
-                webSocketClient = new SocketClient();
-                webSocketClient.connect();
-                messageArea.append("Connecting to WebSocket server...\n");
-            } catch (URISyntaxException ex) {
-                messageArea.append("Invalid WebSocket URI\n");
-            }
+            webSocketClient = SocketClient.getInstance();
+            webSocketClient.connect();
+            messageArea.append("Connecting to WebSocket server...\n");
         });
 
         helloButton.addActionListener(e -> {

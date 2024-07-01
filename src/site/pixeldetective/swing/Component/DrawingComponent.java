@@ -15,22 +15,24 @@ import java.util.List;
 import java.util.Timer;
 
 public class DrawingComponent extends JPanel {
-    public int userid;
     private BufferedImage image;
     public List<List<Integer>> drawCircles = new ArrayList<>();
+    public List<Color> drawColors = new ArrayList<>();
     public int x;
     public int y;
     public GamePanel gp;
     private boolean showX;
     public List<Boolean> answerMark;
     public Map<Integer, List<Integer>> answers;
+    public int TOTAL_HITS;
 
     public DrawingComponent(String imgURL) {
 
         try {
-            URL url = new URL(imgURL);
-            image = ImageIO.read(url);
-
+            if (!imgURL.equals("")) {
+                URL url = new URL(imgURL);
+                image = ImageIO.read(url);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -48,37 +50,7 @@ public class DrawingComponent extends JPanel {
                 y = e.getY();
                 System.out.println(x + " " + y);
                 gp.handleClick(x, y, DrawingComponent.this);
-
-
-//                            lst = new ArrayList<>(Arrays.asList(val.get(0), val.get(1), val.get(2), userid));
-
-//                if (idx != -1) {
-////                    System.out.println(idx + " " + answerCheck.get(idx));
-//                }
-////                System.out.println(idx);
-//                if (idx != -1 && !answerCheck.get(idx)) { // idx가 -1이 아닐 경우에만 실행
-//                    drawCircles.add(lst);
-//                    cp.correctLabel.setText(gp.hits + "/" + gp.TOTAL_HITS);
-//                    answerCheck.set(idx, true);
-//                    repaint();
-//                } else if (idx == -1) {
-//                    showX = true;
-//                    repaint(); // X 표시를 그리기 위해 repaint 호출
-//                    // 1초 후 X 표시 지우기
-//                    Timer timer = new Timer();
-//                    timer.schedule(new TimerTask() {
-//                        @Override
-//                        public void run() {
-//                            repaint(); // X 표시를 지우기 위해 repaint 호출
-//                            showX = false;
-//                            timer.cancel(); // 타이머 취소
-//                        }
-//                    }, 1000); // 1초 후 실행
-//
-//                }
-
             }
-
             @Override
             public void mouseEntered(MouseEvent e) {}
 
@@ -93,36 +65,20 @@ public class DrawingComponent extends JPanel {
             Image scaledImage = image.getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
             g.drawImage(scaledImage, 0, 0, this);
         }
-        for (int i = 0; i < answerMark.size(); i++) {
-            if (answerMark.get(i)) {
-                Graphics2D g2d = (Graphics2D) g.create();
-                g2d.setStroke(new BasicStroke(3));
-                g2d.setColor(Color.RED);
-                List<Integer> location = answers.get(i);
-                g2d.drawOval(
-                        location.get(0) - location.get(2),
-                        location.get(1) - location.get(2),
-                        location.get(2) * 2,
-                        location.get(2) * 2);
-                g2d.dispose();
-            }
+        for (int i = 0; i < drawCircles.size(); i++) {
+            Graphics2D g2d = (Graphics2D) g.create();
+            g2d.setStroke(new BasicStroke(5));
+            g2d.setColor(drawColors.get(i));
+            List<Integer> rect = drawCircles.get(i);
+            g2d.drawOval(rect.get(0) - rect.get(2), rect.get(1) - rect.get(2), rect.get(2) * 2, rect.get(2) * 2);
+            g2d.dispose();
         }
-//        for (List<Integer> rect : drawCircles) {
-//            Graphics2D g2d = (Graphics2D) g.create();
-//            g2d.setStroke(new BasicStroke(3));
-//            if (rect.get(3) == userid) {
-//                g2d.setColor(Color.RED);
-//            } else {
-//                g2d.setColor(Color.BLUE);
-//            }
-//            g2d.drawOval(rect.get(0) - rect.get(2), rect.get(1) - rect.get(2), rect.get(2) * 2, rect.get(2) * 2);
-//            g2d.dispose();
-//        }
-
-        if (showX) { // X 표시를 그릴지 여부를 나타내는 변수
-            g.setColor(Color.RED);
-            g.drawLine(x - 30, y - 30, x + 30, y + 30);
-            g.drawLine(x + 30, y - 30, x - 30, y + 30);
+        if (showX) {
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.setColor(Color.RED);
+            g2d.setStroke(new BasicStroke(5));
+            g2d.drawLine(x - 30, y - 30, x + 30, y + 30);
+            g2d.drawLine(x + 30, y - 30, x - 30, y + 30);
         }
     }
     public void printMiss() {
@@ -139,7 +95,31 @@ public class DrawingComponent extends JPanel {
             }
         }, 1000); // 1초 후 실행
     }
-    public void printCorrect() {
+    public void printCorrect(int answerIndex, Color color) {
+        // answers 맵에 정답 정보가 있는지 확인
+        if (answers.containsKey(answerIndex)) {
+            answerMark.set(answerIndex, true);
+            List<Integer> location = answers.get(answerIndex);
+            Graphics g = getGraphics(); // Graphics 객체 얻기
+            if (g != null) {
+                Graphics2D g2d = (Graphics2D) g.create();
+                g2d.setStroke(new BasicStroke(3));
+                g2d.setColor(color); // 전달받은 색상 사용
+                g2d.drawOval(
+                        location.get(0) - location.get(2),
+                        location.get(1) - location.get(2),
+                        location.get(2) * 2,
+                        location.get(2) * 2);
+                g2d.dispose();
+            }
+            drawCircles.add(Arrays.asList(location.get(0), location.get(1), location.get(2)));
+            drawColors.add(color);
+        } else {
+            System.err.println("Error: Invalid answer index in printCorrect - " + answerIndex);
+        }
         repaint();
+        if (drawCircles.size() == TOTAL_HITS) {
+            System.out.println("gameOver");
+        }
     }
 }

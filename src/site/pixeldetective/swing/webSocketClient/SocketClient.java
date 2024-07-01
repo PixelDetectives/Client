@@ -5,19 +5,38 @@ import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import site.pixeldetective.swing.Frame.GameFrame;
 import site.pixeldetective.swing.Panel.ChatPanel;
 import site.pixeldetective.swing.Panel.GameChoicePanel;
 import site.pixeldetective.swing.Panel.UserListPanel;
+import site.pixeldetective.swing.etc.Game;
 import site.pixeldetective.swing.etc.Room;
 import site.pixeldetective.swing.etc.User;
 
 import javax.swing.*;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
+import java.util.UUID;
 public class SocketClient extends WebSocketClient {
+
+    private static final Map<Integer, SocketClient> instances = new HashMap<>();
+    private static final Object lock = new Object();
+    private final PropertyChangeSupport support = new PropertyChangeSupport(this);
+
+    public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+        support.addPropertyChangeListener(propertyName, listener);
+    }
+
+    public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+        support.removePropertyChangeListener(propertyName, listener);
+    }
 
     // 소켓 통신이 필요한 변수들을 선언
    public ChatPanel chatPanel;
@@ -27,15 +46,26 @@ public class SocketClient extends WebSocketClient {
 
    public String jwt;
 
-
-
+   public GameFrame gameFrame;
+   public static String uName;
+   public static int port;
    public static  String SERVER_URI = "ws://localhost:9001";
    //ws://localhost:8887/?u_id=someUserId&u_name=someUserName"
     private CompletableFuture<String> responseFuture;
-
-    public SocketClient() throws URISyntaxException {
+    private static SocketClient instance;
+    private SocketClient() throws URISyntaxException {
         super(new URI(SERVER_URI));;
 
+    }
+    public static SocketClient getInstance() {
+        if (instance == null) {
+            try {
+                instance = new SocketClient();
+            } catch (URISyntaxException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return instance;
     }
 
     @Override
@@ -136,6 +166,24 @@ public class SocketClient extends WebSocketClient {
                         gameChoicePanel.addRoom(room);
                     }
                     break;
+                case "gameStart":
+                    String data = jsonObject.getString("data");
+                    JSONObject parseData = new JSONObject(data);
+                    support.firePropertyChange("gameStart", null, parseData);
+                    break;
+                case "quickMatching":
+                    System.out.println("quickMatching : " + jsonObject.toString());
+                    String quickGameDataString = jsonObject.getString("data");
+                    JSONObject quickGameData = new JSONObject(quickGameDataString);
+                    support.firePropertyChange("quickStart", null, quickGameData);
+                    break;
+                case "pointResult":
+                    System.out.println("called point result");
+                    String pointResultString = jsonObject.getString("data");
+                    JSONObject pointResultData = new JSONObject(pointResultString);
+                    support.firePropertyChange("pointResult", null, pointResultData);
+
+                    break;
                 default:
                     // 처리할 타입이 없을 경우의 로직
                     System.out.println(type + ":은 처리 할 수 있는 case(type)가 없어 !");
@@ -220,16 +268,6 @@ public class SocketClient extends WebSocketClient {
         sendMessage(request);
     }
 
-    // quickMatching기능 삭제 예정
-//    public void quickMatching() throws Exception {
-//        JSONObject request = new JSONObject();
-//        request.put("command", "quickMatching");
-//        if(!Objects.isNull(jwt)) {
-//        request.put("token", jwt);
-//    }
-//        sendMessage(request);
-//    }
-
     public void cancelMatching() throws Exception {
         JSONObject request = new JSONObject();
         request.put("command", "cancelMatching");
@@ -307,5 +345,9 @@ public class SocketClient extends WebSocketClient {
         }
         return null;
     }
-
+    public void quickMatching() throws Exception {
+        JSONObject request = new JSONObject();
+        request.put("command", "quickMatching");
+        sendMessage(request);
+    }
 }

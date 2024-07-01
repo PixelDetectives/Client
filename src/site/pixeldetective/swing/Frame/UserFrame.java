@@ -29,9 +29,7 @@ public class UserFrame extends JFrame{
 	public UserAPI userapi = new UserAPI();
 
 	public static String uName;
-
 	public UserFrame() {
-
 
 //		lf.gameFrame = gm;
 //		makeRoomFrame.gameFrame = gm;
@@ -76,6 +74,7 @@ public class UserFrame extends JFrame{
 					// 닉네임
 					SocketClient.SERVER_URI =  "ws://localhost:9001?u_id="+login.jtf_id.getText()+"&u_name="+ ChatPanel.nickName+"";
 					System.out.println(SocketClient.SERVER_URI);
+					SocketClient.uName = ChatPanel.nickName;
 					MakeRoomFrame makeRoomFrame = new MakeRoomFrame();
 					makeRoomFrame.setVisible(false);
 					//		GameFrame gm = new GameFrame();

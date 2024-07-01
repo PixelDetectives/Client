@@ -13,15 +13,18 @@ public class GameFrame extends JFrame {
     public MakeRoomFrame mk;
     public GameFrame() {
         super("Game");
-        setSize(1280, 720);
-        setLocationRelativeTo(null);
-        GamePanel gp = new GamePanel();
-        gp.gf = this;
-        add(gp);
-        setVisible(true);
-//        setLocationRelativeTo(null);
-//
-//        add(new GamePanel());
-//        setVisible(true);
+        try {
+            setSize(1280, 720);
+            setLocationRelativeTo(null);
+            System.out.println("Creating GameFrame...");
+            GamePanel gp = new GamePanel();
+            gp.gf = this;
+            add(gp);
+            setVisible(false);
+            System.out.println("GameFrame created successfully!");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }

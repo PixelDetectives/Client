@@ -9,7 +9,6 @@ import javax.swing.border.Border;
 import java.awt.*;
 
 public class DrawingPanel extends JPanel {
-    public int userid;
     public DrawingComponent dc;
     public String name;
 
@@ -25,4 +24,8 @@ public class DrawingPanel extends JPanel {
         nc.setPreferredSize(new Dimension(430, 100));
         add(nc, BorderLayout.SOUTH);
     }
+    public DrawingComponent getDrawingComponent() {
+        return this.dc;
+    }
+
 }

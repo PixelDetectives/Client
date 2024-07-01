@@ -1,16 +1,21 @@
 package site.pixeldetective.swing.Panel;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import site.pixeldetective.swing.Component.CorrectPanel;
 import site.pixeldetective.swing.Component.CurrentBoardPanel;
 import site.pixeldetective.swing.Component.DrawingComponent;
 import site.pixeldetective.swing.Panel.DrawingPanel;
 import site.pixeldetective.swing.Frame.GameFrame;
 import site.pixeldetective.swing.Panel.GameResult;
+import site.pixeldetective.swing.webSocketClient.SocketClient;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,8 +23,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
-public class GamePanel extends JPanel {
-    private ImageIcon backgroundImage;
+public class GamePanel extends JPanel implements PropertyChangeListener {
+    private final ImageIcon backgroundImage = new ImageIcon("resource/image/bgGame.png");
     private Dimension drawDeinsion = new Dimension(450, 640);
     public int time  = 0;
     public int hits = 0;
@@ -38,101 +43,130 @@ public class GamePanel extends JPanel {
     public GameFrame gf;
     public GameResult gr;
 
+    private SocketClient socketClient;
+
+    private String imgURL1;
+    private String imgURL2;
+    public DrawingPanel dp;
+
     public GamePanel() {
-        setPreferredSize(new Dimension(1280, 720));
-        backgroundImage = new ImageIcon("resource/image/bgGame.png");
+        this.socketClient = SocketClient.getInstance();
+        SocketClient.getInstance().addPropertyChangeListener("gameOver", this);
+        SocketClient.getInstance().addPropertyChangeListener("gameStart", this);
+        SocketClient.getInstance().addPropertyChangeListener("quickStart", this);
+        SocketClient.getInstance().addPropertyChangeListener("pointResult", this);
+    }
+    private void UIInitialize() {
+        try {
+            setPreferredSize(new Dimension(1280, 720));
 
-        GridBagConstraints gbc = new GridBagConstraints();
-        // 컴포넌트 크기 고정
-        gbc.fill = GridBagConstraints.NONE;
-        // 가운데 정렬
-        gbc.anchor = GridBagConstraints.CENTER;
-        gbc.gridwidth = 1;
-        // 가로 방향 비율 추가 분배 x
-        gbc.weightx = 1.0;
-        // 세로 방향 비율 추가 분배 x
-        gbc.weighty = 1.0;
+            GridBagConstraints gbc = new GridBagConstraints();
+            // 컴포넌트 크기 고정
+            gbc.fill = GridBagConstraints.NONE;
+            // 가운데 정렬
+            gbc.anchor = GridBagConstraints.CENTER;
+            gbc.gridwidth = 1;
+            // 가로 방향 비율 추가 분배 x
+            gbc.weightx = 1.0;
+            // 세로 방향 비율 추가 분배 x
+            gbc.weighty = 1.0;
 
-        JPanel topDummy = new DummyPanel();
-        topDummy.setPreferredSize(new Dimension(1280, 20));
-        topDummy.setOpaque(false); // 투명하게 설정
+            JPanel topDummy = new DummyPanel();
+            topDummy.setPreferredSize(new Dimension(1280, 20));
+            topDummy.setOpaque(false); // 투명하게 설정
 
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        // gbc.gridwidth = 3;
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            // gbc.gridwidth = 3;
 
-        // 수직 방향으로 공간을 차지하는 비율
-        gbc.weighty = 1.0;
-        add(topDummy, gbc);
-        gameInitialize(1);
-        // jp1 설정
-        String imgURL1 = "https://sesac-projects-s3.s3.ap-northeast-2.amazonaws.com/image1.png";
-        leftPanel = new DrawingPanel(imgURL1, myName);
-        // 자신의 pk
-        ((DrawingPanel)leftPanel).userid = 1;
-        ((DrawingPanel)leftPanel).dc.gp = this;
-        leftPanel.dc.answerMark = this.answerMark;
-        leftPanel.dc.answers = this.answers;
-        leftPanel.setPreferredSize(drawDeinsion);
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        add(leftPanel, gbc);
+            // 수직 방향으로 공간을 차지하는 비율
+            gbc.weighty = 1.0;
+            add(topDummy, gbc);
+            // jp1 설정
+            leftPanel = new DrawingPanel(imgURL1, myName);
+            ((DrawingPanel) leftPanel).getDrawingComponent().gp = this;
+            ((DrawingPanel) leftPanel).getDrawingComponent().answers = answers;
+            ((DrawingPanel) leftPanel).getDrawingComponent().answerMark = answerMark;
+            ((DrawingPanel) leftPanel).getDrawingComponent().TOTAL_HITS = TOTAL_HITS;
+            leftPanel.setPreferredSize(drawDeinsion);
+            gbc.gridx = 0;
+            gbc.gridy = 1;
+            add(leftPanel, gbc);
 
-        String imgURL2 = "https://sesac-projects-s3.s3.ap-northeast-2.amazonaws.com/image2.png";
-        rightPanel = new DrawingPanel(imgURL2, otherName);
+            rightPanel = new DrawingPanel(imgURL2, otherName);
 
-        // 상대의 pk
-        ((DrawingPanel)rightPanel).userid = 1;
-        ((DrawingPanel)rightPanel).dc.gp = this;
-        rightPanel.dc.answerMark = this.answerMark;
-        rightPanel.dc.answers = this.answers;
-        rightPanel.setPreferredSize(drawDeinsion);
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        add(rightPanel, gbc);
+            ((DrawingPanel) rightPanel).getDrawingComponent().gp = this;
+            ((DrawingPanel) rightPanel).getDrawingComponent().answers = answers;
+            ((DrawingPanel) rightPanel).getDrawingComponent().answerMark = answerMark;
+            ((DrawingPanel) rightPanel).getDrawingComponent().TOTAL_HITS = TOTAL_HITS;
+            rightPanel.setPreferredSize(drawDeinsion);
+            gbc.gridx = 1;
+            gbc.gridy = 1;
+            add(rightPanel, gbc);
 
-        JPanel jp3 = new DummyPanel();
-        jp3.setPreferredSize(new Dimension(60, 640));
-        jp3.setOpaque(false); // 투명하게 설정
-        gbc.gridx = 2;
-        gbc.gridy = 1;
-        add(jp3, gbc);
+            JPanel jp3 = new DummyPanel();
+            jp3.setPreferredSize(new Dimension(60, 640));
+            jp3.setOpaque(false); // 투명하게 설정
+            gbc.gridx = 2;
+            gbc.gridy = 1;
+            add(jp3, gbc);
 
-        JPanel jp4 = new GameBoardPanel();
-        currentBoardPanel = ((GameBoardPanel)jp4).cbp;
-        ((GameBoardPanel)jp4).cp.updateLabel(hits, TOTAL_HITS);
-        cp = ((GameBoardPanel)jp4).cp;
-        jp4.setPreferredSize(new Dimension(250, 640));
-        jp4.setOpaque(false); // 투명하지 않게 설정
-        // jp4.setBackground(Color.red); // 색상 추가
-        gbc.gridx = 3;
-        gbc.gridy = 1;
-        add(jp4, gbc);
-        ((GameBoardPanel) jp4).tc.timeLabel.setText(time + "");
-        t = new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                time--;
-                // EDT에서 JLabel 텍스트 업데이트
-                SwingUtilities.invokeLater(() -> {
-                    ((GameBoardPanel) jp4).tc.timeLabel.setText(time + "");
-                    if (time <= 0) {
-                        gameOver();
-                    }
-                });
-            }
-        });
-        t.start();
+            JPanel jp4 = new GameBoardPanel();
+            currentBoardPanel = ((GameBoardPanel)jp4).cbp;
+            ((GameBoardPanel)jp4).cp.updateLabel(hits, TOTAL_HITS);
+            cp = ((GameBoardPanel)jp4).cp;
+            jp4.setPreferredSize(new Dimension(250, 640));
+            jp4.setOpaque(false); // 투명하지 않게 설정
+            // jp4.setBackground(Color.red); // 색상 추가
+            gbc.gridx = 3;
+            gbc.gridy = 1;
+            add(jp4, gbc);
+            ((GameBoardPanel) jp4).tc.timeLabel.setText(time + "");
+            t = new Timer(1000, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    time--;
+                    // EDT에서 JLabel 텍스트 업데이트
+                    SwingUtilities.invokeLater(() -> {
+                        ((GameBoardPanel) jp4).tc.timeLabel.setText(time + "");
+                        if (time <= 0) {
+                            handleGameOver();
+                        }
+                    });
+                }
+            });
+            t.start();
 
-        JPanel bottomDummy = new DummyPanel();
-        topDummy.setPreferredSize(new Dimension(1280, 20));
-        jp3.setOpaque(false); // 투명하게 설정
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        // 수직 방향으로 공간을 차지하는 비율
-        gbc.weighty = 1.0;
-        add(bottomDummy, gbc);
+            JPanel bottomDummy = new DummyPanel();
+            topDummy.setPreferredSize(new Dimension(1280, 20));
+            jp3.setOpaque(false); // 투명하게 설정
+            gbc.gridx = 0;
+            gbc.gridy = 2;
+            // 수직 방향으로 공간을 차지하는 비율
+            gbc.weighty = 1.0;
+            add(bottomDummy, gbc);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+    }
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if ("gameOver".equals(evt.getPropertyName())) {
+            SwingUtilities.invokeLater(this::handleGameOver);
+        } else if ("gameStart".equals(evt.getPropertyName())) {
+            JSONObject gameData = (JSONObject) evt.getNewValue();
+            SwingUtilities.invokeLater(() -> handleGameStart(gameData));
+        } else if ("quickStart".equals(evt.getPropertyName())) {
+            JSONObject gameData = (JSONObject) evt.getNewValue();
+            SwingUtilities.invokeLater(() -> {
+                gf.setVisible(true);
+                updateGameData(gameData);
+            });
+        } else if ("pointResult".equals(evt.getPropertyName())) {
+            JSONObject pointResultData = (JSONObject) evt.getNewValue();
+            SwingUtilities.invokeLater(() -> handlePointResult(pointResultData));
+        }
     }
     @Override
     protected void paintComponent(Graphics g) {
@@ -142,95 +176,126 @@ public class GamePanel extends JPanel {
     }
 
 
-    private void gameInitialize(int drawingNumber) {
-        try {
-            myName = "나";
-            otherName = "상대방";
-            time = 3;
-            // drawingNumber를 통한 값 가져오기
-            answers = new HashMap<>();
-            hits = 0;
-            miss = 0;
-            total = 0;
-            // answer의 전체 길이
-            TOTAL_HITS = 5;
-            // get answers
-            answerMark = new ArrayList<>();
-            for (int i = 0; i < TOTAL_HITS; i++) {
-                answerMark.add(false);
-            }
-            answers.put(0, new ArrayList<>(Arrays.asList(217, 377, 130)));
-            answers.put(1, new ArrayList<>(Arrays.asList(77, 87, 75)));
-            answers.put(2, new ArrayList<>(Arrays.asList(388, 349, 75)));
-            answers.put(3, new ArrayList<>(Arrays.asList(37, 413, 40)));
-        } catch (Exception exception) {
-
-        }
-    }
-
     public void handleClick(int x, int y, DrawingComponent source) {
-        double minDist = 100000000.0;
-        int answerCandidate = -1;
-        // 정답을 순회하면서 어떤 클릭 이벤트가 일어난 곳과 가까운 곳, 정답 안에 들어온 곳을 찾아냄.
-        for (int k : answers.keySet()) {
-            List<Integer> val = answers.get(k);
-            double tempDist = Math.hypot(x - val.get(0), y - val.get(1));
-            if (tempDist <= val.get(2)) {
-                if (tempDist <= minDist) {
-                    minDist = tempDist;
-                    answerCandidate = k;
-                }
-            }
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("command", "gamePoint");
+        JSONObject pointer = new JSONObject();
+        pointer.put("x", x);
+        pointer.put("y", y);
+        jsonObject.put("data", pointer);
+
+        if (source == leftPanel.getDrawingComponent()) {
+            this.dp = leftPanel;
+        } else if (source == rightPanel.getDrawingComponent()) {
+            this.dp = rightPanel;
         }
-        if (answerCandidate != -1 && !answerMark.get(answerCandidate)) {
-            answerMark.set(answerCandidate, true);
-            hits += 1;
-            leftPanel.dc.printCorrect();
-            rightPanel.dc.printCorrect();
-            if (hits == TOTAL_HITS) {
-                gameOver();
-            }
-        } else if (answerCandidate == -1) {
-            miss += 1;
-            source.printMiss();
-        }
-        total = hits + miss;
-        currentBoardPanel.updateLabel(hits, miss, total);
-        cp.updateLabel(hits, TOTAL_HITS);
+
+        socketClient.send(jsonObject.toString());
+
     }
-    private void setUpdateText(JPanel component) {
-        if (component != null) {
-            try {
-                Field[] fields = component.getClass().getDeclaredFields();
-                for (Field field : fields) {
-                    System.out.println(field.getName());
-                }
-            } catch (Exception exception) {
-                System.out.println(exception.getMessage());
-            }
-        }
-    }
-    public void gameOver() {
+
+    public void handleGameOver() {
         System.out.println("game over");
         if (t != null) {
             t.stop();
         }
 
-        // 결과를 계산하는 로직을 추가합니다.
-        String result;
-        if (hits > TOTAL_HITS / 2) {
-            result = "WIN";
-        } else if (hits < TOTAL_HITS / 2) {
-            result = "LOSE";
-        } else {
-            result = "DRAW";
-        }
-
         SwingUtilities.invokeLater(() -> {
-            GameResult gr = new GameResult(myName, otherName, hits, miss, total, time, result);
+            GameResult gr = new GameResult(myName, otherName, hits, miss, total, time, "win");
             gr.setVisible(true);
             gr.gf = this.gf;
-
         });
+        socketClient.gameFrame.dispose();
+    }
+    public void handleGameStart(JSONObject gameData) {
+        SwingUtilities.invokeLater(() -> {
+            try {
+                if (gameData != null) {
+                    System.out.println(gameData);
+                    int gDifficulty = gameData.getInt("gDifficulty");
+                    if (gDifficulty == 1) {
+                        time = 180;
+                    } else if (gDifficulty == 2) {
+                        time = 300;
+                    } else {
+                        time = 420;
+                    }
+                    imgURL1 = gameData.getString("gImage1");
+                    imgURL2 = gameData.getString("gImage2");
+                    myName = gameData.getString("myName");
+                    otherName = gameData.getString("otherName");
+                    UIInitialize();
+                }
+            } catch (Exception exception) {
+                System.out.println(exception.getMessage());
+                new RuntimeException(exception);
+            }
+        });
+    }
+
+    private void updateGameData(JSONObject gameData) {
+        System.out.println("update Game Data");
+        int gDifficulty = gameData.optInt("gDifficulty", 1);
+        if (gDifficulty == 0) {
+            time = 180;
+        } else if (gDifficulty == 1) {
+            time = 300;
+        } else {
+            time = 420;
+        }
+        this.answerMark = new ArrayList<>();
+        myName = gameData.optString("myName");
+        otherName = gameData.optString("otherName");
+        imgURL1 = gameData.optString("gImage1");
+        imgURL2 = gameData.optString("gImage2");
+        this.answers = new HashMap<>();
+        JSONArray answersArray = gameData.getJSONArray("answers");
+        TOTAL_HITS = answersArray.length();
+        for (int i = 0; i < TOTAL_HITS; i++) {
+            JSONObject answer = answersArray.getJSONObject(i);
+            int aX = answer.getInt("aX");
+            int aY = answer.getInt("aY");
+            int aRadius = answer.getInt("aRadius");
+            answers.put(i, Arrays.asList(aX, aY, aRadius));
+        }
+        for (int i = 0; i < TOTAL_HITS; i++) {
+            this.answerMark.add(false);
+        }
+        this.hits = 0;
+        this.miss = 0;
+        this.total = 0;
+        SwingUtilities.invokeLater(() -> {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            UIInitialize();
+        });
+    }
+    public void handlePointResult(JSONObject object) {
+        String status = object.getString("status");
+        String nickname = object.getString("currUserName");
+        if (status.equals("none")) {
+            return ;
+        }
+        if (status.equals("hits")) {
+            this.hits += 1;
+            int correctIdx = object.getInt("correctIdx");
+            if (nickname.equals(myName)) {
+                leftPanel.dc.printCorrect(correctIdx, Color.RED);
+                rightPanel.dc.printCorrect(correctIdx, Color.RED);
+            } else {
+                leftPanel.dc.printCorrect(correctIdx, Color.BLUE);
+                rightPanel.dc.printCorrect(correctIdx, Color.BLUE);
+            }
+            cp.updateLabel(this.hits, TOTAL_HITS);
+        } else if (status.equals("miss") && nickname.equals(socketClient.uName)) {
+            this.miss += 1;
+            this.dp.getDrawingComponent().printMiss();
+        }
+        if (nickname.equals(socketClient.uName)) {
+            currentBoardPanel.updateLabel(this.hits, this.miss, this.hits + this.miss);
+        }
     }
 }

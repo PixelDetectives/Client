@@ -1,6 +1,7 @@
 package site.pixeldetective.swing.Panel;
 
 import site.pixeldetective.swing.Frame.MakeRoomFrame;
+import site.pixeldetective.swing.webSocketClient.SocketClient;
 
 import javax.swing.*;
 import java.awt.*;
@@ -57,7 +58,14 @@ public class GameButtonPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 // 생성자에서 프레임을 받아오는 방식.
                 //dispose(); // 현재 프레임 닫기
-                new MakeRoomFrame(); // 새로운 프레임 열기
+//                new MakeRoomFrame(); // 새로운 프레임 열기
+                System.out.println("빠른 시작");
+                try {
+                    SocketClient.getInstance().quickMatching();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    throw new RuntimeException(ex);
+                }
             }
         });
 
