@@ -184,8 +184,8 @@ public class RoomSettingPanel extends JPanel{
 
                 try {
                     // 방 생성 및 매칭 요청
-                    MakeRoomAPI api = new MakeRoomAPI();
-                    api.postRoom(inputRoomTitle, selectedButtonText, 1, 2, 3);
+                    //MakeRoomAPI api = new MakeRoomAPI();
+                   // api.postRoom(inputRoomTitle, selectedButtonText, 1, 2, 3);
                     System.out.println("방이름 : " + roomTextField.getText() + "\n난이도 : " + selectedButtonText);
 
                     // 매칭 중 상태를 표시하는 모달 다이얼로그
