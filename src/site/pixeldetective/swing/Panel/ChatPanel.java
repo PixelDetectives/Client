@@ -22,6 +22,13 @@ public class ChatPanel extends JPanel {
 
     public SocketClient socketClient;
 
+    public JLabel getNicknameLabel() {
+        return nicknameLabel;
+    }
+
+    public void setNicknameLabel(JLabel nicknameLabel) {
+        this.nicknameLabel = nicknameLabel;
+    }
 
     public ChatPanel()  {
 
@@ -38,8 +45,9 @@ public class ChatPanel extends JPanel {
         inputPanel.setLayout(new BorderLayout());
 
         // 닉네임 라벨 // 로그인시 서버로부터 전달받아와야함
-        nicknameLabel = new JLabel("픽셀 탐정1호기  ");
+        nicknameLabel = new JLabel("");
         inputPanel.add(nicknameLabel, BorderLayout.WEST);
+
 
         // 채팅 입력 필드
         chatInputField = new JTextField();
