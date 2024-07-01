@@ -11,6 +11,7 @@ import site.pixeldetective.swing.Panel.UserListPanel;
 import site.pixeldetective.swing.etc.Room;
 import site.pixeldetective.swing.etc.User;
 
+import javax.swing.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Objects;
@@ -84,28 +85,37 @@ public class SocketClient extends WebSocketClient {
                     chatPanel.updateUI();
                     System.out.println("최종 result " + result); // 디버깅용 출력
                     break;
-                case "currentUsers" :
+                case "currentUsers":
                     System.out.println("currentUsers 실행");
                     String UserData = jsonObject.getString("data");
                     JSONArray usersArray = new JSONArray(UserData);
-                    //모든 유저 목록을 지운다.
-                   // userListPanel.removeAll();
+                    // 모든 유저 목록을 지운다.
+                    SwingUtilities.invokeLater(() -> {
+                        userListPanel.setEmpty();
+                    });
+                    Thread.sleep(10);
                     for (int j = 0; j < usersArray.length(); j++) {
                         System.out.println("반복문 실행");
                         String userDataStr = usersArray.getString(j);
                         JSONObject userData = new JSONObject(userDataStr);
-                        //String uNum = userData.getString("uNum");
                         String uId = userData.getString("uId");
-                        if("".equals(uId) || Objects.isNull(uId))
+                        if ("".equals(uId) || Objects.isNull(uId))
                             continue;
                         String uName = userData.getString("uName");
                         String status = userData.getString("status");
                         System.out.println("uId: " + uId + ", uName: " + uName + ", status: " + status);
                         // 여기서 유저 정보를 userListPanel 등에 추가하는 코드를 작성
                         System.out.println("socket에서 호출 ");
-                        userListPanel.setUserList(new User(1, uName, "join"));
+                        SwingUtilities.invokeLater(() -> {
+                            userListPanel.setUserList(new User(1, uName, "join"));
+                        });
                     }
+                    SwingUtilities.invokeLater(() -> {
+                        userListPanel.revalidate();
+                        userListPanel.repaint();
+                    });
                     break;
+
                 case "currentRooms":
                     String RoomData = jsonObject.getString("data");
                     JSONArray roomsArray = new JSONArray(RoomData);
@@ -138,6 +148,8 @@ public class SocketClient extends WebSocketClient {
             System.out.println();
             System.out.println("--------");
             System.out.println("JSON타입이 이니여라");
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 

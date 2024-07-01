@@ -7,16 +7,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.net.URISyntaxException;
 
 // LobbyFrame >> LobbyPanel >> UserListPanel 현재 가입 회원 리스트를 담당
 public class UserListPanel extends JPanel {
 
     public SocketClient socketClient;
 
-
-
     JPanel userListPanel;
+    JLabel userLabel;
+
     public UserListPanel() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -36,7 +35,6 @@ public class UserListPanel extends JPanel {
         userListPanel.setLayout(new BoxLayout(userListPanel, BoxLayout.Y_AXIS));
         userListPanel.setBackground(Color.WHITE);
 
-
         // 스크롤 패널 추가
         JScrollPane scrollPane = new JScrollPane(userListPanel);
         scrollPane.setPreferredSize(new Dimension(505, 200));
@@ -48,8 +46,10 @@ public class UserListPanel extends JPanel {
         add(scrollPane);
     }
 
-    public void setEmpty(){
+    public void setEmpty() {
         userListPanel.removeAll();
+        userListPanel.revalidate();
+        userListPanel.repaint();
     }
 
     public void setUserList(User user) {
@@ -101,7 +101,6 @@ public class UserListPanel extends JPanel {
         userListPanel.repaint(); // 패널을 다시 그리도록 요청
     }
 
-
     public static void main(String[] args) {
         // Create a new JFrame
         JFrame frame = new JFrame("User List Test");
@@ -121,12 +120,13 @@ public class UserListPanel extends JPanel {
         // Set the frame to be visible
         frame.setVisible(true);
 
+        // Test clearing the user list and adding new users
+        userListPanel.setEmpty(); // This should clear the list
+
         // Add users to the list
         userListPanel.setUserList(new User(123, "User 1", "join"));
+        userListPanel.setEmpty();
         userListPanel.setUserList(new User(124, "User 2", "join"));
         userListPanel.setUserList(new User(125, "User 3", "join"));
     }
-
-
-
 }
