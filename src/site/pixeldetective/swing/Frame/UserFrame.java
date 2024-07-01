@@ -24,7 +24,6 @@ public class UserFrame extends JFrame{
 	public JPanel user;
 	public SignUpApi suapi = new SignUpApi();
 	public LobbyFrame lf;
-
 	public UserAPI userapi = new UserAPI();
 
 	public UserFrame() {
@@ -69,8 +68,8 @@ public class UserFrame extends JFrame{
 				System.out.println(login.jtf_pw.getText());
 				System.out.println("login clicked");
 				if (userapi.postLogin(login.jtf_id.getText(), login.jtf_pw.getText() , UserFrame.this) == false
-						|| login.jtf_id.getText().length() > 10 || login.jtf_id.getText().length() < 6
-						|| login.jtf_pw.getText().length() > 10 || login.jtf_pw.getText().length() < 4) {
+						|| login.jtf_id.getText().length() > 11 || login.jtf_id.getText().length() < 6
+						|| login.jtf_pw.getText().length() > 11 || login.jtf_pw.getText().length() < 4) {
 					JOptionPane.showMessageDialog(null, "로그인에 실패했습니다.", "", JOptionPane.INFORMATION_MESSAGE);
 				}else {
 					JOptionPane.showMessageDialog(null, "로그인에 성공했습니다.", "", JOptionPane.INFORMATION_MESSAGE);
@@ -79,7 +78,7 @@ public class UserFrame extends JFrame{
 					lf.lp.jwt = jwt;
 					lf.lp.socketClient.jwt = jwt;
 					System.out.println("소켓의 jwt"+lf.lp.socketClient.jwt);
-
+					setVisible(false);
 					lf.setVisible(true);
 				}
 
@@ -102,9 +101,9 @@ public class UserFrame extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(signup.isVisible()) {
-					if (signup.jtf_id.getText().length() > 10 || signup.jtf_id.getText().length() < 6
-							|| signup.jtf_pw.getText().length() > 10 || signup.jtf_pw.getText().length() < 4
-							|| signup.jtf_name.getText().length() > 10 || signup.jtf_name.getText().length() < 3) {
+					if (signup.jtf_id.getText().length() > 11 || signup.jtf_id.getText().length() < 6
+							|| signup.jtf_pw.getText().length() > 11 || signup.jtf_pw.getText().length() < 4
+							|| signup.jtf_name.getText().length() > 11 || signup.jtf_name.getText().length() < 3) {
 						JOptionPane.showMessageDialog(null, "회원가입에 실패했습니다.", "", JOptionPane.INFORMATION_MESSAGE);
 					}else {
 						boolean signUpSuccess = suapi.postSign(signup.jtf_id.getText(), signup.jtf_name.getText(), signup.jtf_pw.getText());
