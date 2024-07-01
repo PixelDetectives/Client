@@ -14,7 +14,7 @@ import java.net.URISyntaxException;
 public class LobbyPanel extends JPanel {
 
     public LobbyFrame lf;
-
+    public String jwt;
 
     JScrollPane scrollPane;
     UserListPanel panel1;
@@ -76,6 +76,7 @@ public class LobbyPanel extends JPanel {
         try {
             socketClient = new SocketClient();
             socketClient.connect();
+
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
@@ -85,6 +86,7 @@ public class LobbyPanel extends JPanel {
         socketClient.chatPanel = panel2;
         socketClient.userListPanel = panel1;
         socketClient.gameChoicePanel = panel4;
+
 
         try {
             //socketClient.getCurrentUserList();

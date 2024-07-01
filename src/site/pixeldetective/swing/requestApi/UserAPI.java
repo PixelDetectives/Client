@@ -1,7 +1,9 @@
 package site.pixeldetective.swing.requestApi;
 
 import org.json.JSONObject;
+import site.pixeldetective.swing.Frame.UserFrame;
 import site.pixeldetective.swing.HttpConnector.HttpConnector;
+import site.pixeldetective.swing.webSocketClient.SocketClient;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -10,7 +12,8 @@ import java.util.Map;
 public class UserAPI {
     HttpConnector hc = new HttpConnector("/login");
 
-    public boolean postLogin(String uId, String uPw) {
+
+    public boolean postLogin(String uId, String uPw, UserFrame userFrame) {
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("u_id", uId);
@@ -23,13 +26,15 @@ public class UserAPI {
             JSONObject jsonResponse = new JSONObject(response);
             System.out.println("response : " + jsonResponse.toString());
             String result = jsonResponse.getString("message");
-            String jwt = jsonResponse.getString("jwt");
+
             // u_id u_name u_num / 로비프레임   검증
             
 
             if("성공".equals(result)){
+                System.out.println("로그인 요청 결과 성공");
                 System.out.println(result);
-                System.out.println(jwt);
+                userFrame.jwt = jsonResponse.getString("jwt");
+                System.out.println(userFrame.jwt);
                 return true;
             }else {
 
@@ -48,6 +53,8 @@ public class UserAPI {
 
     public static void main(String[] args) {
         UserAPI ua = new UserAPI();
-        ua.postLogin("test58","test58");
+        String aa = null;
+       // ua.postLogin("kim1234","1234",aa);
+        System.out.println("jwt:"+aa);
     }
 }
