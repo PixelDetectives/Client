@@ -4,6 +4,8 @@ import site.pixeldetective.swing.Component.CorrectPanel;
 import site.pixeldetective.swing.Component.CurrentBoardPanel;
 import site.pixeldetective.swing.Component.DrawingComponent;
 import site.pixeldetective.swing.Panel.DrawingPanel;
+import site.pixeldetective.swing.Frame.GameFrame;
+import site.pixeldetective.swing.Panel.GameResult;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +17,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
+
 public class GamePanel extends JPanel {
+    private ImageIcon backgroundImage;
     private Dimension drawDeinsion = new Dimension(450, 640);
     public int time  = 0;
     public int hits = 0;
@@ -31,8 +35,11 @@ public class GamePanel extends JPanel {
     public DrawingPanel rightPanel;
     public CorrectPanel cp;
     public Timer t;
-    public GamePanel() {
+    public GameFrame gf;
 
+    public GamePanel() {
+        setPreferredSize(new Dimension(1280, 720));
+        backgroundImage = new ImageIcon("resource/image/bgGame.png");
 
         GridBagConstraints gbc = new GridBagConstraints();
         // 컴포넌트 크기 고정
@@ -47,9 +54,12 @@ public class GamePanel extends JPanel {
 
         JPanel topDummy = new DummyPanel();
         topDummy.setPreferredSize(new Dimension(1280, 20));
+        topDummy.setOpaque(false); // 투명하게 설정
+
         gbc.gridx = 0;
         gbc.gridy = 0;
-//        gbc.gridwidth = 3;
+        // gbc.gridwidth = 3;
+
         // 수직 방향으로 공간을 차지하는 비율
         gbc.weighty = 1.0;
         add(topDummy, gbc);
@@ -82,6 +92,7 @@ public class GamePanel extends JPanel {
 
         JPanel jp3 = new DummyPanel();
         jp3.setPreferredSize(new Dimension(60, 640));
+        jp3.setOpaque(false); // 투명하게 설정
         gbc.gridx = 2;
         gbc.gridy = 1;
         add(jp3, gbc);
@@ -91,6 +102,8 @@ public class GamePanel extends JPanel {
         ((GameBoardPanel)jp4).cp.updateLabel(hits, TOTAL_HITS);
         cp = ((GameBoardPanel)jp4).cp;
         jp4.setPreferredSize(new Dimension(250, 640));
+        jp4.setOpaque(false); // 투명하지 않게 설정
+        // jp4.setBackground(Color.red); // 색상 추가
         gbc.gridx = 3;
         gbc.gridy = 1;
         add(jp4, gbc);
@@ -112,6 +125,7 @@ public class GamePanel extends JPanel {
 
         JPanel bottomDummy = new DummyPanel();
         topDummy.setPreferredSize(new Dimension(1280, 20));
+        jp3.setOpaque(false); // 투명하게 설정
         gbc.gridx = 0;
         gbc.gridy = 2;
         // 수직 방향으로 공간을 차지하는 비율
@@ -119,18 +133,26 @@ public class GamePanel extends JPanel {
         add(bottomDummy, gbc);
 
     }
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(backgroundImage.getImage(), 0, 0, getWidth(), getHeight(), this);
+        setOpaque(false);
+    }
+
+
     private void gameInitialize(int drawingNumber) {
         try {
             myName = "나";
             otherName = "상대방";
-            time = 5;
+            time = 3;
             // drawingNumber를 통한 값 가져오기
             answers = new HashMap<>();
             hits = 0;
             miss = 0;
             total = 0;
             // answer의 전체 길이
-            TOTAL_HITS = 4;
+            TOTAL_HITS = 5;
             // get answers
             answerMark = new ArrayList<>();
             for (int i = 0; i < TOTAL_HITS; i++) {
@@ -192,12 +214,22 @@ public class GamePanel extends JPanel {
         if (t != null) {
             t.stop();
         }
-        JOptionPane.showMessageDialog(
-                GamePanel.this,
-                "game over",
-                "타이머",
-                JOptionPane.INFORMATION_MESSAGE
-        );
-    }
 
+        // 결과를 계산하는 로직을 추가합니다.
+        String result;
+        if (hits > TOTAL_HITS / 2) {
+            result = "WIN";
+        } else if (hits < TOTAL_HITS / 2) {
+            result = "LOSE";
+        } else {
+            result = "DRAW";
+        }
+
+        SwingUtilities.invokeLater(() -> {
+            GameResult gr = new GameResult(myName, otherName, hits, miss, total, time, result);
+            gr.setVisible(true);
+            gr.gf = this.gf;
+
+        });
+    }
 }

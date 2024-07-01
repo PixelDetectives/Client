@@ -46,6 +46,7 @@ public class DrawingComponent extends JPanel {
             public void mouseReleased(MouseEvent e) {
                 x = e.getX();
                 y = e.getY();
+                System.out.println(x + " " + y);
                 gp.handleClick(x, y, DrawingComponent.this);
 
 
