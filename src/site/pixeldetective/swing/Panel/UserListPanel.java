@@ -37,6 +37,8 @@ public class UserListPanel extends JPanel {
         userListPanel.setBackground(Color.WHITE);
 
         setUserList(new User(123,"한수엽","join"));
+        setUserList(new User(123,"한수엽","join"));
+        setUserList(new User(123,"한수엽","join"));
 
 
         // 스크롤 패널 추가
@@ -99,11 +101,30 @@ public class UserListPanel extends JPanel {
             userListPanel.add(userPanel);
           this.updateUI();
 
+    }public static void main(String[] args) {
+        // Create a new JFrame
+        JFrame frame = new JFrame("User List Test");
+
+        // Set the default close operation
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Create an instance of UserListPanel
+        UserListPanel userListPanel = new UserListPanel();
+
+        // Add the UserListPanel to the frame
+        frame.add(userListPanel);
+
+        // Set the frame size
+        frame.setSize(600, 400);
+
+        // Set the frame to be visible
+        frame.setVisible(true);
+
+        // Add users to the list
+        userListPanel.setUserList(new User(123, "User 1", "join"));
+        userListPanel.setUserList(new User(124, "User 2", "join"));
+        userListPanel.setUserList(new User(125, "User 3", "join"));
     }
-
-
-
-
 
 
 
