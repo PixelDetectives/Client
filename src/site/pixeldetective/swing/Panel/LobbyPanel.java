@@ -18,7 +18,7 @@ public class LobbyPanel extends JPanel {
 
     JScrollPane scrollPane;
     UserListPanel panel1;
-    ChatPanel panel2;
+    public ChatPanel panel2;
     GameButtonPanel panel3;
     GameChoicePanel panel4;
     JPanel right;

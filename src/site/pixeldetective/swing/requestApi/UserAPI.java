@@ -34,6 +34,10 @@ public class UserAPI {
                 System.out.println("로그인 요청 결과 성공");
                 System.out.println(result);
                 userFrame.jwt = jsonResponse.getString("jwt");
+
+
+                userFrame.lf.lp.panel2.getNicknameLabel().setText(jsonResponse.getString("nickName"));
+                userFrame.lf.lp.panel2.updateUI();
                 System.out.println(userFrame.jwt);
                 return true;
             }else {

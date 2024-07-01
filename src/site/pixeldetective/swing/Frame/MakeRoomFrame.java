@@ -7,6 +7,7 @@ import java.awt.*;
 
 public class MakeRoomFrame extends JFrame {
     public LobbyFrame lobbyFrame;
+    public GameFrame gameFrame;
 
     public MakeRoomFrame(){
         super("MakeRoom");

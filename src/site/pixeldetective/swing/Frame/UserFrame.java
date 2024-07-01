@@ -30,10 +30,17 @@ public class UserFrame extends JFrame{
 
 		MakeRoomFrame makeRoomFrame = new MakeRoomFrame();
 		makeRoomFrame.setVisible(false);
+		GameFrame gm = new GameFrame();
+		gm.setVisible(false);
 		lf = new LobbyFrame();
 		lf.setVisible(false);
 		makeRoomFrame.lobbyFrame = lf;
 		lf.makeRoomFrame = makeRoomFrame;
+		lf.gameFrame = gm;
+		makeRoomFrame.gameFrame = gm;
+		gm.lf = lf;
+		gm.mk = makeRoomFrame;
+
 
 
 
