@@ -39,7 +39,7 @@ public class LoginPanel extends JPanel {
     }
     
     public LoginPanel() {
-        setLayout(null); // 절대 위치 사용
+        setLayout(null);
 
         try {
             customFont = Font.createFont(Font.TRUETYPE_FONT, new File("resource/font/DungGeunMo.otf")).deriveFont(30f);
