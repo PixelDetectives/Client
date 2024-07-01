@@ -24,7 +24,6 @@ public class UserFrame extends JFrame{
 	public JPanel user;
 	public SignUpApi suapi = new SignUpApi();
 	public LobbyFrame lf;
-
 	public UserAPI userapi = new UserAPI();
 
 	public UserFrame() {
@@ -79,7 +78,7 @@ public class UserFrame extends JFrame{
 					lf.lp.jwt = jwt;
 					lf.lp.socketClient.jwt = jwt;
 					System.out.println("소켓의 jwt"+lf.lp.socketClient.jwt);
-
+					setVisible(false);
 					lf.setVisible(true);
 				}
 
