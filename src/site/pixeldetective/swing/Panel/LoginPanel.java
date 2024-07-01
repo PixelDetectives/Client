@@ -51,7 +51,7 @@ public class LoginPanel extends JPanel {
         jlb_id = new JLabel("아이디");
         jlb_id.setFont(customFont);
         jlb_id.setForeground(Color.white);
-        jlb_id.setBounds(400, 340, 100, 40); // 위치와 크기 설정
+        jlb_id.setBounds(420, 340, 100, 40); // 위치와 크기 설정
         add(jlb_id);
 
         jtf_id = new JTextField();
@@ -62,7 +62,7 @@ public class LoginPanel extends JPanel {
         jlb_pw = new JLabel("비밀번호");
         jlb_pw.setFont(customFont);
         jlb_pw.setForeground(Color.white);
-        jlb_pw.setBounds(400, 390, 150, 40);
+        jlb_pw.setBounds(420, 390, 150, 40);
         add(jlb_pw);
 
         jtf_pw = new JPasswordField();
@@ -74,13 +74,13 @@ public class LoginPanel extends JPanel {
         jbt_login = new JButton("로그인");
         jbt_login.setFont(customFont);
         jbt_login.setBackground(Color.white);
-        jbt_login.setBounds(400, 440, 200, 50);
+        jbt_login.setBounds(420, 450, 200, 50);
         add(jbt_login);
 
         jbt_signup = new JButton("회원가입");
         jbt_signup.setFont(customFont);
         jbt_signup.setBackground(Color.white);
-        jbt_signup.setBounds(650, 440, 200, 50);
+        jbt_signup.setBounds(650, 450, 200, 50);
         add(jbt_signup);
         
     }
