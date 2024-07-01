@@ -222,7 +222,7 @@ public class SocketClient extends WebSocketClient {
 
     public void createRoom(String roomName, int difficulty) throws Exception {
         JSONObject request = new JSONObject();
-        request.put("command", "roomCreate");
+        request.put("command", "createRoom");
         request.put("r_name", roomName);
         request.put("r_difficulty", difficulty);// 0,1.2
         if(!Objects.isNull(jwt)) {
