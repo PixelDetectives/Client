@@ -36,10 +36,6 @@ public class UserListPanel extends JPanel {
         userListPanel.setLayout(new BoxLayout(userListPanel, BoxLayout.Y_AXIS));
         userListPanel.setBackground(Color.WHITE);
 
-        setUserList(new User(123,"한수엽","join"));
-        setUserList(new User(123,"한수엽","join"));
-        setUserList(new User(123,"한수엽","join"));
-
 
         // 스크롤 패널 추가
         JScrollPane scrollPane = new JScrollPane(userListPanel);
@@ -57,51 +53,56 @@ public class UserListPanel extends JPanel {
     }
 
     public void setUserList(User user) {
+        System.out.println("setUserList");
+        System.out.println(user.getuName());
         String userName = user.getuName();
-            JPanel userPanel = new JPanel();
-            userPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-            userPanel.setOpaque(false);
-            userPanel.setPreferredSize(new Dimension(505, 31));
-            userPanel.setMinimumSize(new Dimension(505, 31));
-            userPanel.setMaximumSize(new Dimension(505, 31));
+        JPanel userPanel = new JPanel();
+        userPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        userPanel.setOpaque(false);
+        userPanel.setPreferredSize(new Dimension(505, 31));
+        userPanel.setMinimumSize(new Dimension(505, 31));
+        userPanel.setMaximumSize(new Dimension(505, 31));
 
-            JLabel spacer = new JLabel();
-            spacer.setPreferredSize(new Dimension(70, 31));
-            spacer.setMinimumSize(new Dimension(70, 31));
-            spacer.setMaximumSize(new Dimension(70, 31));
+        JLabel spacer = new JLabel();
+        spacer.setPreferredSize(new Dimension(70, 31));
+        spacer.setMinimumSize(new Dimension(70, 31));
+        spacer.setMaximumSize(new Dimension(70, 31));
 
-            JLabel userLabel = new JLabel(userName);
-            JLabel userId = new JLabel(userName);
-            userId.setVisible(false);
-            userLabel.setOpaque(true); // JLabel 배경 설정을 위해 불투명하게 만듦
-            userLabel.setBackground(Color.WHITE); // 배경 색상 설정
-            userLabel.setPreferredSize(new Dimension(230, 31));
-            userLabel.setMinimumSize(new Dimension(230, 31));
-            userLabel.setMaximumSize(new Dimension(230, 31));
-            userLabel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-            userLabel.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    System.out.println(userName + " clicked!");
-                }
+        JLabel userLabel = new JLabel(userName);
+        JLabel userId = new JLabel(userName);
+        userId.setVisible(false);
+        userLabel.setOpaque(true); // JLabel 배경 설정을 위해 불투명하게 만듦
+        userLabel.setBackground(Color.WHITE); // 배경 색상 설정
+        userLabel.setPreferredSize(new Dimension(230, 31));
+        userLabel.setMinimumSize(new Dimension(230, 31));
+        userLabel.setMaximumSize(new Dimension(230, 31));
+        userLabel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        userLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println(userName + " clicked!");
+            }
 
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    userLabel.setForeground(Color.BLUE);
-                }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                userLabel.setForeground(Color.BLUE);
+            }
 
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    userLabel.setForeground(Color.BLACK);
-                }
-            });
+            @Override
+            public void mouseExited(MouseEvent e) {
+                userLabel.setForeground(Color.BLACK);
+            }
+        });
 
-            userPanel.add(spacer);
-            userPanel.add(userLabel);
-            userListPanel.add(userPanel);
-          this.updateUI();
+        userPanel.add(spacer);
+        userPanel.add(userLabel);
+        userListPanel.add(userPanel);
+        userListPanel.revalidate(); // 레이아웃 매니저가 변경사항을 반영하도록 재요청
+        userListPanel.repaint(); // 패널을 다시 그리도록 요청
+    }
 
-    }public static void main(String[] args) {
+
+    public static void main(String[] args) {
         // Create a new JFrame
         JFrame frame = new JFrame("User List Test");
 

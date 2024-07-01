@@ -3,6 +3,7 @@ package site.pixeldetective.swing.requestApi;
 import org.json.JSONObject;
 import site.pixeldetective.swing.Frame.UserFrame;
 import site.pixeldetective.swing.HttpConnector.HttpConnector;
+import site.pixeldetective.swing.Panel.ChatPanel;
 import site.pixeldetective.swing.webSocketClient.SocketClient;
 
 import java.util.HashMap;
@@ -36,8 +37,8 @@ public class UserAPI {
                 userFrame.jwt = jsonResponse.getString("jwt");
 
 
-                userFrame.lf.lp.panel2.getNicknameLabel().setText(jsonResponse.getString("nickName"));
-                userFrame.lf.lp.panel2.updateUI();
+                ChatPanel.nickName = jsonResponse.getString("nickName");
+                //userFrame.lf.lp.panel2.updateUI();
                 System.out.println(userFrame.jwt);
                 return true;
             }else {

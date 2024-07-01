@@ -10,10 +10,12 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import site.pixeldetective.swing.Panel.ChatPanel;
 import site.pixeldetective.swing.Panel.LoginPanel;
 import site.pixeldetective.swing.Panel.SignUpPanel;
 import site.pixeldetective.swing.requestApi.SignUpApi;
 import site.pixeldetective.swing.requestApi.UserAPI;
+import site.pixeldetective.swing.webSocketClient.SocketClient;
 
 public class UserFrame extends JFrame{
 
@@ -26,26 +28,15 @@ public class UserFrame extends JFrame{
 	public LobbyFrame lf;
 	public UserAPI userapi = new UserAPI();
 
+	public static String uName;
+
 	public UserFrame() {
 
-		MakeRoomFrame makeRoomFrame = new MakeRoomFrame();
-		makeRoomFrame.setVisible(false);
-		GameFrame gm = new GameFrame();
-		gm.setVisible(false);
-		lf = new LobbyFrame();
-		lf.setVisible(false);
-		makeRoomFrame.lobbyFrame = lf;
-		lf.makeRoomFrame = makeRoomFrame;
-		lf.gameFrame = gm;
-		makeRoomFrame.gameFrame = gm;
-		gm.lf = lf;
-		gm.mk = makeRoomFrame;
 
-
-
-
-
-		lf.setVisible(false);
+//		lf.gameFrame = gm;
+//		makeRoomFrame.gameFrame = gm;
+//		gm.lf = lf;
+//		gm.mk = makeRoomFrame;
 		setTitle("픽셀탐정단");
 
 		setSize(1280, 720);
@@ -81,12 +72,26 @@ public class UserFrame extends JFrame{
 				}else {
 					JOptionPane.showMessageDialog(null, "로그인에 성공했습니다.", "", JOptionPane.INFORMATION_MESSAGE);
 					dispose();
+
+					// 닉네임
+					SocketClient.SERVER_URI =  "ws://localhost:9001?u_id="+login.jtf_id.getText()+"&u_name="+ ChatPanel.nickName+"";
+					System.out.println(SocketClient.SERVER_URI);
+					MakeRoomFrame makeRoomFrame = new MakeRoomFrame();
+					makeRoomFrame.setVisible(false);
+					//		GameFrame gm = new GameFrame();
+					//		gm.setVisible(false);
+					lf = new LobbyFrame();
+					lf.setVisible(false);
+					makeRoomFrame.lobbyFrame = lf;
+					lf.makeRoomFrame = makeRoomFrame;
+
+                    System.out.println("소켓의 jwt"+lf.lp.socketClient.jwt);
+					setVisible(false);
+					lf.setVisible(true);
+
 					lf.jwt = jwt;
 					lf.lp.jwt = jwt;
 					lf.lp.socketClient.jwt = jwt;
-					System.out.println("소켓의 jwt"+lf.lp.socketClient.jwt);
-					setVisible(false);
-					lf.setVisible(true);
 				}
 
 

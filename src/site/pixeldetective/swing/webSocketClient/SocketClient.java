@@ -28,11 +28,13 @@ public class SocketClient extends WebSocketClient {
 
 
 
-    private static final String SERVER_URI = "ws://localhost:9001";
+   public static  String SERVER_URI = "ws://localhost:9001";
+   //ws://localhost:8887/?u_id=someUserId&u_name=someUserName"
     private CompletableFuture<String> responseFuture;
 
     public SocketClient() throws URISyntaxException {
-        super(new URI(SERVER_URI));
+        super(new URI(SERVER_URI));;
+
     }
 
     @Override
@@ -87,16 +89,21 @@ public class SocketClient extends WebSocketClient {
                     String UserData = jsonObject.getString("data");
                     JSONArray usersArray = new JSONArray(UserData);
                     //모든 유저 목록을 지운다.
-                    userListPanel.removeAll();
+                   // userListPanel.removeAll();
                     for (int j = 0; j < usersArray.length(); j++) {
+                        System.out.println("반복문 실행");
                         String userDataStr = usersArray.getString(j);
                         JSONObject userData = new JSONObject(userDataStr);
+                        //String uNum = userData.getString("uNum");
                         String uId = userData.getString("uId");
+                        if("".equals(uId) || Objects.isNull(uId))
+                            continue;
                         String uName = userData.getString("uName");
                         String status = userData.getString("status");
                         System.out.println("uId: " + uId + ", uName: " + uName + ", status: " + status);
                         // 여기서 유저 정보를 userListPanel 등에 추가하는 코드를 작성
-                        userListPanel.setUserList(new User(1, uName, status));
+                        System.out.println("socket에서 호출 ");
+                        userListPanel.setUserList(new User(1, uName, "join"));
                     }
                     break;
                 case "currentRooms":

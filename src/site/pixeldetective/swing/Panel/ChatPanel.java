@@ -18,7 +18,10 @@ public class ChatPanel extends JPanel {
     private JPanel chatArea;
     private JTextField chatInputField;
     private JButton sendButton;
-    private JLabel nicknameLabel;
+
+    public static String nickName;
+
+    private static JLabel nicknameLabel;
 
     public SocketClient socketClient;
 
@@ -45,7 +48,7 @@ public class ChatPanel extends JPanel {
         inputPanel.setLayout(new BorderLayout());
 
         // 닉네임 라벨 // 로그인시 서버로부터 전달받아와야함
-        nicknameLabel = new JLabel("");
+        nicknameLabel = new JLabel(nickName);
         inputPanel.add(nicknameLabel, BorderLayout.WEST);
 
 
