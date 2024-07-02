@@ -7,6 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 
 // LobbyFrame >> LobbyPanel >> UserListPanel 현재 가입 회원 리스트를 담당
 public class UserListPanel extends JPanel {
@@ -15,16 +17,24 @@ public class UserListPanel extends JPanel {
 
     JPanel userListPanel;
     JLabel userLabel;
-
+    Font customFont;
     public UserListPanel() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
+        try {
+            customFont = Font.createFont(Font.TRUETYPE_FONT, new File("resource/font/DungGeunMo.otf")).deriveFont(30f);
+        } catch (FontFormatException | IOException e) {
+            e.printStackTrace();
+            customFont = new Font("Arial", Font.BOLD, 30); // 오류 발생 시 기본 폰트로 대체
+        }
+
+
         // 제목 패널 설정
         JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        titlePanel.setBackground(Color.BLUE);
+        titlePanel.setBackground(new Color(107, 76, 178));
         JLabel titleLabel = new JLabel("현재 유저");
         titleLabel.setForeground(Color.WHITE);
-        titleLabel.setFont(new Font("Malgun Gothic", Font.BOLD, 24));
+        titleLabel.setFont(customFont);
         titlePanel.setPreferredSize(new Dimension(505, 50));
         titlePanel.setMinimumSize(new Dimension(505, 50));
         titlePanel.setMaximumSize(new Dimension(505, 50));
