@@ -1,6 +1,8 @@
 package site.pixeldetective.swing.Component;
 
+import org.json.JSONObject;
 import site.pixeldetective.swing.Panel.GamePanel;
+import site.pixeldetective.swing.webSocketClient.SocketClient;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -119,7 +121,7 @@ public class DrawingComponent extends JPanel {
         }
         repaint();
         if (drawCircles.size() == TOTAL_HITS) {
-            System.out.println("gameOver");
+            gp.handleGameOver();
         }
     }
 }

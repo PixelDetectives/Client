@@ -178,11 +178,14 @@ public class SocketClient extends WebSocketClient {
                     support.firePropertyChange("quickStart", null, quickGameData);
                     break;
                 case "pointResult":
-                    System.out.println("called point result");
                     String pointResultString = jsonObject.getString("data");
                     JSONObject pointResultData = new JSONObject(pointResultString);
                     support.firePropertyChange("pointResult", null, pointResultData);
-
+                    break;
+                case "gameResult":
+                    String gameResultString = jsonObject.getString("data");
+                    JSONObject gameResultData = new JSONObject(gameResultString);
+                    support.firePropertyChange("gameResult", null, gameResultData);
                     break;
                 default:
                     // 처리할 타입이 없을 경우의 로직

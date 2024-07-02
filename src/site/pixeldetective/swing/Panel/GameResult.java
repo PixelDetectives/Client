@@ -16,10 +16,14 @@ public class GameResult extends JFrame {
     private int miss;
     private int total;
     private int time;
-    private String result; // WIN, LOSE, DRAW
+    public String result; // WIN, LOSE, DRAW
     public GameFrame gf;
+    int otherHits;
+    int otherMiss;
+    int otherTotal;
 
-    public GameResult(String myName, String otherName, int hits, int miss, int total, int time,String result) {
+    public GameResult(String myName, String otherName, int hits, int miss, int total, int time, String result
+    , int otherHits, int otherMiss, int otherTotal) {
         this.myName = myName;
         this.otherName = otherName;
         this.hits = hits;
@@ -27,6 +31,9 @@ public class GameResult extends JFrame {
         this.total = total;
         this.time = time;
         this.result = result;
+        this.otherHits = otherHits;
+        this.otherMiss = otherMiss;
+        this.otherTotal = otherTotal;
         GameFrame gf;
 
 
@@ -95,10 +102,10 @@ public class GameResult extends JFrame {
         JPanel valuesPanel2 = new JPanel(new GridLayout(1, 5, 0, 0));
         valuesPanel2.setBorder(new EmptyBorder(0, 10, 0, 10)); // 값 패널 여백 설정
         JLabel nameLabel2_2 = new JLabel(otherName); // 실제 값으로 변경
-        JLabel hitLabel2_2 = new JLabel("8"); // 실제 값으로 변경
-        JLabel missLabel2_2 = new JLabel("3"); // 실제 값으로 변경
-        JLabel totalLabel2_2 = new JLabel("11"); // 실제 값으로 변경
-        JLabel timeLabel2_2 = new JLabel("25s"); // 실제 값으로 변경
+        JLabel hitLabel2_2 = new JLabel(String.valueOf(otherHits)); // 실제 값으로 변경
+        JLabel missLabel2_2 = new JLabel(String.valueOf(otherMiss)); // 실제 값으로 변경
+        JLabel totalLabel2_2 = new JLabel(String.valueOf(otherTotal)); // 실제 값으로 변경
+        JLabel timeLabel2_2 = new JLabel(String.valueOf(time) + "s"); // 실제 값으로 변경
         valuesPanel2.add(nameLabel2_2);
         valuesPanel2.add(hitLabel2_2);
         valuesPanel2.add(missLabel2_2);

@@ -55,6 +55,7 @@ public class GamePanel extends JPanel implements PropertyChangeListener {
         SocketClient.getInstance().addPropertyChangeListener("gameStart", this);
         SocketClient.getInstance().addPropertyChangeListener("quickStart", this);
         SocketClient.getInstance().addPropertyChangeListener("pointResult", this);
+        SocketClient.getInstance().addPropertyChangeListener("gameResult", this);
     }
     private void UIInitialize() {
         try {
@@ -166,6 +167,9 @@ public class GamePanel extends JPanel implements PropertyChangeListener {
         } else if ("pointResult".equals(evt.getPropertyName())) {
             JSONObject pointResultData = (JSONObject) evt.getNewValue();
             SwingUtilities.invokeLater(() -> handlePointResult(pointResultData));
+        } else if ("gameResult".equals(evt.getPropertyName())) {
+            JSONObject gameResultData = (JSONObject) evt.getNewValue();
+            SwingUtilities.invokeLater(() -> handleGameResult(gameResultData));
         }
     }
     @Override
@@ -195,17 +199,21 @@ public class GamePanel extends JPanel implements PropertyChangeListener {
     }
 
     public void handleGameOver() {
-        System.out.println("game over");
+
         if (t != null) {
             t.stop();
         }
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("command", "gameOver");
+        JSONObject data = new JSONObject();
+        data.put("hits" , hits);
+        data.put("miss", miss);
+        jsonObject.put("data", data.toString());
 
-        SwingUtilities.invokeLater(() -> {
-            GameResult gr = new GameResult(myName, otherName, hits, miss, total, time, "win");
-            gr.setVisible(true);
-            gr.gf = this.gf;
-        });
-        socketClient.gameFrame.dispose();
+        socketClient.send(jsonObject.toString());
+
+
+
     }
     public void handleGameStart(JSONObject gameData) {
         SwingUtilities.invokeLater(() -> {
@@ -279,8 +287,10 @@ public class GamePanel extends JPanel implements PropertyChangeListener {
         if (status.equals("none")) {
             return ;
         }
-        if (status.equals("hits")) {
+        if (status.equals("hits") && nickname.equals(socketClient.uName)) {
             this.hits += 1;
+        }
+        if (status.equals("hits")) {
             int correctIdx = object.getInt("correctIdx");
             if (nickname.equals(myName)) {
                 leftPanel.dc.printCorrect(correctIdx, Color.RED);
@@ -297,5 +307,29 @@ public class GamePanel extends JPanel implements PropertyChangeListener {
         if (nickname.equals(socketClient.uName)) {
             currentBoardPanel.updateLabel(this.hits, this.miss, this.hits + this.miss);
         }
+    }
+    public void handleGameResult(JSONObject object) {
+        System.out.println("handleGameResult");
+        int myHits = object.getInt("myHits");
+        int myMiss = object.getInt("myMiss");
+        int otherHits = object.getInt("otherHits");
+        int otherMiss = object.getInt("otherMiss");
+        int time = object.getInt("time") / 1000;
+        String otherNickName = object.getString("otherNickName");
+        String myNickName = object.getString("myNickName");
+        String result = "";
+        if (myHits > otherHits || (myHits == otherHits && myMiss < otherMiss)) {
+            result += "WIN";
+        } else if (otherHits > myHits || (myHits == otherHits && myMiss > otherMiss)) {
+            result += "LOSE";
+        } else {
+            result += "DRAW";
+        }
+        String finalResult = result;
+        SwingUtilities.invokeLater(() -> {
+            GameResult gr = new GameResult(myNickName, otherNickName, myHits, myMiss, myHits + myMiss, time, finalResult, otherHits, otherMiss, otherHits + otherMiss);
+            gr.setVisible(true);
+//            gr.gf = this.gf;
+        });
     }
 }
