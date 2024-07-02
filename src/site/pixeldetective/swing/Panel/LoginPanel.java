@@ -71,19 +71,30 @@ public class LoginPanel extends JPanel {
         jtf_pw.setBounds(550, 390, 300, 40);
         add(jtf_pw);
 
+        // RGB로 지정된 색상
+        Color backgroundColor1 = new Color(37, 46, 145); // White
+        Color textColor1 = new Color(255, 255, 255); // Black
+
         jbt_login = new JButton("로그인");
         jbt_login.setFont(customFont);
         jbt_login.setBackground(Color.white);
         jbt_login.setBounds(420, 450, 200, 50);
+        jbt_login.setUI(new RoundedButtonUI(backgroundColor1, textColor1, 25)); // 라운드 버튼 UI 적용
         add(jbt_login);
+
+        // RGB로 지정된 색상
+        Color backgroundColor2 = new Color(149, 156, 210); // White
+        Color textColor2 = new Color(255, 255, 255); // Black
 
         jbt_signup = new JButton("회원가입");
         jbt_signup.setFont(customFont);
         jbt_signup.setBackground(Color.white);
         jbt_signup.setBounds(650, 450, 200, 50);
+        jbt_signup.setUI(new RoundedButtonUI(backgroundColor2, textColor2, 25)); // 라운드 버튼 UI 적용
         add(jbt_signup);
         
     }
+
 
 }
 

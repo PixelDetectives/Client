@@ -84,16 +84,24 @@ public class SignUpPanel extends JPanel{
 		jtf_name.setBounds(550, 390, 300, 40);
 		add(jtf_name);
 
+		Color backgroundColor1 = new Color(37, 46, 145); // White
+		Color textColor1 = new Color(255, 255, 255); // Black
+
 		jbt_signup = new JButton("회원가입");
 		jbt_signup.setFont(customFont);
 		jbt_signup.setBackground(Color.white);
 		jbt_signup.setBounds(420, 450, 200, 50);
+		jbt_signup.setUI(new RoundedButtonUI(backgroundColor1, textColor1, 25)); // 라운드 버튼 UI 적용
 		add(jbt_signup);
+
+		Color backgroundColor2 = new Color(149, 156, 210); // White
+		Color textColor2 = new Color(255, 255, 255); // Black
 
 		jbt_cancel = new JButton("뒤로가기");
 		jbt_cancel.setFont(customFont);
 		jbt_cancel.setBackground(Color.white);
 		jbt_cancel.setBounds(650, 450, 200, 50);
+		jbt_cancel.setUI(new RoundedButtonUI(backgroundColor2, textColor2, 25)); // 라운드 버튼 UI 적용
 		add(jbt_cancel);
 
 		setOpaque(false); // 배경 이미지 표시를 위해 투명 설정
