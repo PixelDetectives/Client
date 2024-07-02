@@ -30,6 +30,9 @@ public class GameButtonPanel extends JPanel {
         gbc.fill = GridBagConstraints.NONE;
         gbc.anchor = GridBagConstraints.CENTER;
 
+        Color backgroundColor1 = new Color(37, 46, 145); // White
+        Color textColor1 = new Color(255, 255, 255); // Black
+
         // 첫 번째 버튼 생성 및 설정
         button1 = new JButton("방만들기");
         button1.setPreferredSize(new Dimension(297, 100));
@@ -38,20 +41,24 @@ public class GameButtonPanel extends JPanel {
         button1.setBackground(Color.black); // 버튼의 배경색
         button1.setBorderPainted(false); // 버튼의 테두리 여부
         button1.setFocusPainted(false); // 버튼의 포커스 표시 여부
-        button1.setUI(new RoundedButtonUI(Color.black, Color.WHITE, 30));
+        button1.setUI(new RoundedButtonUI(backgroundColor1, textColor1, 30));
         gbc.gridx = 0; // 첫 번째 버튼의 열 인덱스
         gbc.gridy = 0; // 첫 번째 버튼의 행 인덱스
         add(button1, gbc);
 
+        // RGB로 지정된 색상
+        Color backgroundColor2 = new Color(255, 128, 134); // White
+        Color textColor2 = new Color(255, 255, 255); // Black
+
         // 두 번째 버튼 생성 및 설정
-        JButton button2 = new JButton("빠른시작");
+        JButton button2 = new JButton("빠른매칭");
         button2.setPreferredSize(new Dimension(297, 100));
         button2.setFont(customFont.deriveFont(30f)); // 폰트 크기 설정
         button2.setForeground(Color.WHITE);
         button2.setBackground(Color.black);
         button2.setBorderPainted(false);
         button2.setFocusPainted(false);
-        button2.setUI(new RoundedButtonUI(Color.black, Color.WHITE, 30)); // 글자, 배경
+        button2.setUI(new RoundedButtonUI(backgroundColor2, textColor2, 30)); // 글자, 배경
         gbc.gridx = 1; // 두 번째 버튼의 열 인덱스
         gbc.gridy = 0; // 두 번째 버튼의 행 인덱스
         add(button2, gbc);

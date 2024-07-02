@@ -2,17 +2,28 @@ package site.pixeldetective.swing.Component;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 public class CorrectPanel extends JPanel {
 
     public JLabel correctLabel;
+    Font customFont;
     public CorrectPanel() {
         setOpaque(false);
         setLayout(new BorderLayout());
         setBackground(Color.GREEN);
         correctLabel = new JLabel("", SwingConstants.CENTER);
         setPreferredSize(new Dimension(100, 75));
-        correctLabel.setFont(new Font("Serif", Font.BOLD, 24));
+
+        try {
+            customFont = Font.createFont(Font.TRUETYPE_FONT, new File("resource/font/DungGeunMo.otf")).deriveFont(30f);
+        } catch (FontFormatException | IOException e) {
+            e.printStackTrace();
+            customFont = new Font("Arial", Font.BOLD, 30); // 오류 발생 시 기본 폰트로 대체
+        }
+
+        correctLabel.setFont(customFont);
         add(correctLabel, BorderLayout.CENTER);
     }
     @Override
