@@ -8,6 +8,8 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
 
 public class GameChoicePanel extends JPanel {
 
@@ -15,12 +17,33 @@ public class GameChoicePanel extends JPanel {
     private int row = 0;
     private int col = 0;
     private Component verticalGlue;
-
+    private JLabel noRoomsLabel;
+    Font customFont;
     public GameChoicePanel() {
-        setLayout(new GridBagLayout()); // GridBagLayout 사용
-        // 빈 공간을 채우기 위한 패널 추가
+        setLayout(new GridBagLayout());
         verticalGlue = Box.createVerticalGlue();
         addVerticalGlue();
+
+        try {
+            customFont = Font.createFont(Font.TRUETYPE_FONT, new File("resource/font/DungGeunMo.otf")).deriveFont(30f);
+        } catch (FontFormatException | IOException e) {
+            e.printStackTrace();
+            customFont = new Font("Arial", Font.BOLD, 30); // 오류 발생 시 기본 폰트로 대체
+        }
+
+        noRoomsLabel = new JLabel("현재 방이 없습니다");
+        noRoomsLabel.setFont(customFont.deriveFont(20f));
+        noRoomsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        noRoomsLabel.setVisible(false);
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0; // 패널의 가운데에 위치하도록 설정
+        gbc.gridwidth = GridBagConstraints.REMAINDER; // 한 줄에 하나의 컴포넌트만 있도록 설정
+        gbc.weightx = 1;
+        gbc.weighty = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL; // 수평 방향으로 컴포넌트를 채움
+        add(noRoomsLabel, gbc);
     }
 
     private void addVerticalGlue() {
@@ -35,16 +58,24 @@ public class GameChoicePanel extends JPanel {
 
     public void setEmpty() {
         this.removeAll();
-        row = 0; // 초기화
-        col = 0; // 초기화
-        // 빈 공간을 다시 추가
+        row = 0;
+        col = 0;
+        noRoomsLabel.setVisible(true);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        gbc.weightx = 1;
+        gbc.weighty = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        add(noRoomsLabel, gbc);
         addVerticalGlue();
         revalidate();
         repaint();
     }
 
     public void addRoom(Room room) {
-        // 기존의 빈 공간 패널을 제거
+        noRoomsLabel.setVisible(false);
         remove(verticalGlue);
 
         JPanel roomPanel = new JPanel();
@@ -143,9 +174,7 @@ public class GameChoicePanel extends JPanel {
             row++;
         }
 
-        // 새로운 위치에 빈 공간 패널 추가
         addVerticalGlue();
-
         revalidate();
         repaint();
     }
@@ -158,10 +187,13 @@ public class GameChoicePanel extends JPanel {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
 
+        // 예시로 빈 방 패널을 표시
+        gameChoicePanel.setEmpty();
+
         // 예시로 몇 개의 방을 추가
         gameChoicePanel.addRoom(new Room(2, 2, "테스트 방 1"));
-        gameChoicePanel.addRoom(new Room(3, 3, "테스트 방 2"));
-        gameChoicePanel.addRoom(new Room(4, 1, "테스트 방 3"));
-        gameChoicePanel.addRoom(new Room(5, 2, "테스트 방 4"));
+        // gameChoicePanel.addRoom(new Room(3, 3, "테스트 방 2"));
+        // gameChoicePanel.addRoom(new Room(4, 1, "테스트 방 3"));
+        // gameChoicePanel.addRoom(new Room(5, 2, "테스트 방 4"));
     }
 }

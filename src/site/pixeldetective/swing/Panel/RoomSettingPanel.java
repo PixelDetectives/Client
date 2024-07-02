@@ -11,6 +11,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.Enumeration;
 
 public class RoomSettingPanel extends JPanel{
@@ -24,138 +26,102 @@ public class RoomSettingPanel extends JPanel{
     private JRadioButton easyButton;
     private JButton yesBtn;
     private JButton noBtn;
-
+    Font customFont;
     SocketClient sc;
 
-
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        ImageIcon backgroundImage = new ImageIcon("resource/image/bg01.png"); // 배경 이미지 경로
+        g.drawImage(backgroundImage.getImage(), 0, 0, getWidth(), getHeight(), this);
+    }
 
     public RoomSettingPanel(){
-        setLayout(new GridBagLayout());
-        setBackground(Color.WHITE);
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
+        setLayout(null); // null 레이아웃 설정
+
+//        GridBagConstraints gbc = new GridBagConstraints();
+//        gbc.insets = new Insets(10, 10, 10, 10);
+
+        try {
+            customFont = Font.createFont(Font.TRUETYPE_FONT, new File("resource/font/DungGeunMo.otf")).deriveFont(30f);
+        } catch (FontFormatException | IOException e) {
+            e.printStackTrace();
+            customFont = new Font("Malgun Gothic", Font.BOLD, 30); // 오류 발생 시 기본 폰트로 대체
+        }
 
         // Main title
         mainTitle = new JLabel("방만들기");
-        mainTitle.setFont(new Font("Malgun Gothic", Font.BOLD, 100));
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        gbc.weighty = 0.2;
-        gbc.insets = new Insets(20, 10, 20, 10);
-        gbc.anchor = GridBagConstraints.CENTER;
-        add(mainTitle, gbc);
+        mainTitle.setFont(customFont.deriveFont(100f));
+        mainTitle.setForeground(Color.BLUE); // 폰트 색상 설정
+        mainTitle.setBounds(100, 50, 600, 100); // 위치와 크기 설정
+        add(mainTitle);
 
-        // Room panel
-        JPanel roomPanel = new JPanel(new GridBagLayout());
-        GridBagConstraints roomGbc = new GridBagConstraints();
-
+        // Room label
         roomLabel = new JLabel("방제목");
-        roomLabel.setBorder(new EmptyBorder(0, 0, 0, 30));
-        roomLabel.setFont(new Font("Malgun Gothic", Font.BOLD, 30));
-        roomPanel.setBorder(new EmptyBorder(20, 22, 20, 22));
-        roomPanel.setBackground(Color.LIGHT_GRAY);
-
-        roomGbc.gridx = 0;
-        roomGbc.gridy = 0;
-        roomGbc.anchor = GridBagConstraints.EAST;
-        roomPanel.add(roomLabel, roomGbc);
+        roomLabel.setFont(customFont.deriveFont(30f));
+        roomLabel.setForeground(Color.RED); // 폰트 색상 설정
+        roomLabel.setBounds(100, 200, 150, 40); // 위치와 크기 설정
+        add(roomLabel);
 
         roomTextField = new JTextField();
         roomTextField.setPreferredSize(new Dimension(280, 50));
-        roomTextField.setBorder(new LineBorder(Color.WHITE));
-        roomGbc.gridx = 1;
-        roomGbc.gridy = 0;
-        roomGbc.anchor = GridBagConstraints.WEST;
-        roomPanel.add(roomTextField, roomGbc);
+        roomTextField.setBounds(250, 200, 300, 40); // 위치와 크기 설정
+        add(roomTextField);
 
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.CENTER;
-
-        add(roomPanel, gbc);
-
-        // Difficulty panel
-        JPanel difficultyPanel = new JPanel(new GridBagLayout());
-        GridBagConstraints difficultyGbc = new GridBagConstraints();
-
-        difficultyPanel.setBorder(new EmptyBorder(10, 27, 20, 27));
-        difficultyPanel.setBackground(Color.LIGHT_GRAY);
-
+        // Difficulty label
         difficultyLabel = new JLabel("난이도 설정");
-        difficultyLabel.setFont(new Font("Malgun Gothic", Font.BOLD, 40));
-        difficultyLabel.setBorder(new EmptyBorder(0, 0, 20, 160));
-
-        difficultyGbc.gridx = 0;
-        difficultyGbc.gridy = 0;
-        difficultyGbc.gridwidth = 3;
-        difficultyGbc.anchor = GridBagConstraints.CENTER;
-        difficultyPanel.add(difficultyLabel, difficultyGbc);
+        difficultyLabel.setFont(customFont.deriveFont(40f));
+        difficultyLabel.setForeground(Color.GREEN); // 폰트 색상 설정
+        difficultyLabel.setBounds(100, 300, 400, 50); // 위치와 크기 설정
+        add(difficultyLabel);
 
         hardButton = new JRadioButton("어려움");
-        hardButton.setBorder(new EmptyBorder(25,10,25,10));
-        normalButton = new JRadioButton("보통");
-        normalButton.setBorder(new EmptyBorder(25,10,25,10));
-        easyButton = new JRadioButton("쉬움");
-        easyButton.setBorder(new EmptyBorder(25,10,25,10));
+        hardButton.setFont(customFont.deriveFont(40f));
+        hardButton.setForeground(Color.BLACK); // 폰트 색상 설정
+        hardButton.setBounds(100, 400, 150, 50); // 위치와 크기 설정
+        add(hardButton);
 
-        Font radioFont = new Font("Malgun Gothic", Font.BOLD, 40);
-        hardButton.setFont(radioFont);
-        normalButton.setFont(radioFont);
-        easyButton.setFont(radioFont);
+        normalButton = new JRadioButton("보통");
+        normalButton.setFont(customFont.deriveFont(40f));
+        normalButton.setForeground(Color.BLACK); // 폰트 색상 설정
+        normalButton.setBounds(300, 400, 150, 50); // 위치와 크기 설정
+        add(normalButton);
+
+        easyButton = new JRadioButton("쉬움");
+        easyButton.setFont(customFont.deriveFont(40f));
+        easyButton.setForeground(Color.BLACK); // 폰트 색상 설정
+        easyButton.setBounds(500, 400, 150, 50); // 위치와 크기 설정
+        add(easyButton);
 
         ButtonGroup group = new ButtonGroup();
         group.add(hardButton);
         group.add(normalButton);
         group.add(easyButton);
 
-        difficultyGbc.gridwidth = 1;
-        difficultyGbc.gridx = 0;
-        difficultyGbc.gridy = 1;
-        difficultyGbc.anchor = GridBagConstraints.EAST;
-        difficultyPanel.add(hardButton, difficultyGbc);
+//        // Yes, No Panel
+//        JPanel buttonPanel = new JPanel(new FlowLayout());
+//        Font ynBtnFont = new Font("Malgun Gothic", Font.BOLD, 25);
 
-        difficultyGbc.gridx = 1;
-        difficultyGbc.gridy = 1;
-        difficultyGbc.anchor = GridBagConstraints.CENTER;
-        difficultyPanel.add(normalButton, difficultyGbc);
-
-        difficultyGbc.gridx = 2;
-        difficultyGbc.gridy = 1;
-        difficultyGbc.anchor = GridBagConstraints.WEST;
-        difficultyPanel.add(easyButton, difficultyGbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.CENTER;
-        add(difficultyPanel, gbc);
-
-        // Yes, No Panel
-        JPanel buttonPanel = new JPanel(new FlowLayout());
-        Font ynBtnFont = new Font("Malgun Gothic", Font.BOLD, 25);
-
+        // Yes button
         yesBtn = new JButton("방만들기");
-        yesBtn.setPreferredSize(new Dimension(220,65));
-        yesBtn.setBorder(new LineBorder(Color.LIGHT_GRAY));
-        yesBtn.setBackground(Color.LIGHT_GRAY);
-        yesBtn.setFont(ynBtnFont);
+        yesBtn.setFont(customFont.deriveFont(25f));
+        yesBtn.setForeground(Color.BLACK); // 폰트 색상 설정
+        yesBtn.setPreferredSize(new Dimension(220, 65));
+        yesBtn.setBounds(100, 500, 220, 65); // 위치와 크기 설정
+        add(yesBtn);
 
+        // No button
         noBtn = new JButton("취소");
-        noBtn.setPreferredSize(new Dimension(220,65));
-        noBtn.setBorder(new LineBorder(Color.LIGHT_GRAY));
-        noBtn.setBackground(Color.LIGHT_GRAY);
-        noBtn.setFont(ynBtnFont);
+        noBtn.setFont(customFont.deriveFont(25f));
+        noBtn.setForeground(Color.BLACK); // 폰트 색상 설정
+        noBtn.setPreferredSize(new Dimension(220, 65));
+        noBtn.setBounds(350, 500, 220, 65); // 위치와 크기 설정
+        add(noBtn);
 
-        buttonPanel.add(yesBtn);
-        buttonPanel.add(noBtn);
-
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.CENTER;
-        add(buttonPanel, gbc);
+        // 둥근 모서리 반투명 패널 추가
+        RoundedPanel roundedPanel = new RoundedPanel(20, 20);
+        roundedPanel.setBounds(50, 150, 600, 450); // 위치와 크기 설정
+        add(roundedPanel);
 
         // 방 제목 입력 길이를 10자로 제한함
         roomTextField.addKeyListener(new KeyAdapter() {
@@ -194,7 +160,7 @@ public class RoomSettingPanel extends JPanel{
                     }
                     // 방 생성 및 매칭 요청
                     //MakeRoomAPI api = new MakeRoomAPI();
-                   // api.postRoom(inputRoomTitle, selectedButtonText, 1, 2, 3);
+                    // api.postRoom(inputRoomTitle, selectedButtonText, 1, 2, 3);
                     System.out.println("방이름 : " + roomTextField.getText() + "\n난이도 : " + selectedButtonText);
 
                     // 매칭 중 상태를 표시하는 모달 다이얼로그

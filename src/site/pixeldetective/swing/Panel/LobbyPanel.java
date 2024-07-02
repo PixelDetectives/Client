@@ -26,21 +26,24 @@ public class LobbyPanel extends JPanel {
 
     public SocketClient socketClient;
 
-
+    public ImageIcon backgroundImage;
 
 
     public LobbyPanel() {
-
+        // 배경 이미지 설정
+        backgroundImage = new ImageIcon("resource/image/bg01.png");
 
         setLayout(null); // 절대 위치 배치로 변경
 
         left = new JPanel();
         left.setLayout(null); // 절대 위치 배치
-        left.setBounds(0, 0, 535, 720); // Absolute positioning
+        left.setBounds(20, 0, 535, 720); // Absolute positioning
+        left.setOpaque(false); // 배경 투명하게 설정
 
         right = new JPanel();
         right.setLayout(null); // 절대 위치 배치
         right.setBounds(535, 0, 745, 720); // Absolute positioning
+        right.setOpaque(false); // 배경 투명하게 설정
 
         // 패널 1 설정
         panel1 = new UserListPanel();
@@ -104,6 +107,11 @@ public class LobbyPanel extends JPanel {
         System.out.println(this.getSize());
         System.out.println(left.getSize());
         System.out.println(right.getSize());
+    }
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(backgroundImage.getImage(), 0, 0, getWidth(), getHeight(), this);
     }
 
     public void setGameChoicePanel(GameChoicePanel gameChoicePanel) {
