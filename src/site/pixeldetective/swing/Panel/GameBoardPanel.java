@@ -19,6 +19,7 @@ public class GameBoardPanel extends JPanel {
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
 
+
         setLayout(new GridBagLayout());
 
         this.tc = new TimerComponent();

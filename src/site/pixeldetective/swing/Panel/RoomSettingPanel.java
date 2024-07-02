@@ -52,45 +52,48 @@ public class RoomSettingPanel extends JPanel{
         // Main title
         mainTitle = new JLabel("방만들기");
         mainTitle.setFont(customFont.deriveFont(100f));
-        mainTitle.setForeground(Color.BLUE); // 폰트 색상 설정
-        mainTitle.setBounds(100, 50, 600, 100); // 위치와 크기 설정
+        mainTitle.setForeground(Color.black); // 폰트 색상 설정
+        mainTitle.setBounds(450, 50, 600, 100); // 위치와 크기 설정
         add(mainTitle);
 
         // Room label
         roomLabel = new JLabel("방제목");
         roomLabel.setFont(customFont.deriveFont(30f));
-        roomLabel.setForeground(Color.RED); // 폰트 색상 설정
-        roomLabel.setBounds(100, 200, 150, 40); // 위치와 크기 설정
+        roomLabel.setForeground(Color.black); // 폰트 색상 설정
+        roomLabel.setBounds(420, 220, 150, 40); // 위치와 크기 설정
         add(roomLabel);
 
         roomTextField = new JTextField();
         roomTextField.setPreferredSize(new Dimension(280, 50));
-        roomTextField.setBounds(250, 200, 300, 40); // 위치와 크기 설정
+        roomTextField.setBounds(550, 220, 300, 40); // 위치와 크기 설정
         add(roomTextField);
 
         // Difficulty label
         difficultyLabel = new JLabel("난이도 설정");
-        difficultyLabel.setFont(customFont.deriveFont(40f));
-        difficultyLabel.setForeground(Color.GREEN); // 폰트 색상 설정
-        difficultyLabel.setBounds(100, 300, 400, 50); // 위치와 크기 설정
+        difficultyLabel.setFont(customFont.deriveFont(30f));
+        difficultyLabel.setForeground(Color.black); // 폰트 색상 설정
+        difficultyLabel.setBounds(420, 340, 400, 50); // 위치와 크기 설정
         add(difficultyLabel);
 
         hardButton = new JRadioButton("어려움");
-        hardButton.setFont(customFont.deriveFont(40f));
+        hardButton.setFont(customFont.deriveFont(20f));
         hardButton.setForeground(Color.BLACK); // 폰트 색상 설정
-        hardButton.setBounds(100, 400, 150, 50); // 위치와 크기 설정
+        hardButton.setBounds(800, 390, 150, 50); // 위치와 크기 설정
+        hardButton.setOpaque(false); // 배경 투명 설정
         add(hardButton);
 
         normalButton = new JRadioButton("보통");
-        normalButton.setFont(customFont.deriveFont(40f));
+        normalButton.setFont(customFont.deriveFont(20f));
         normalButton.setForeground(Color.BLACK); // 폰트 색상 설정
-        normalButton.setBounds(300, 400, 150, 50); // 위치와 크기 설정
+        normalButton.setBounds(600, 390, 150, 50); // 위치와 크기 설정
+        normalButton.setOpaque(false); // 배경 투명 설정
         add(normalButton);
 
         easyButton = new JRadioButton("쉬움");
-        easyButton.setFont(customFont.deriveFont(40f));
+        easyButton.setFont(customFont.deriveFont(20f));
         easyButton.setForeground(Color.BLACK); // 폰트 색상 설정
-        easyButton.setBounds(500, 400, 150, 50); // 위치와 크기 설정
+        easyButton.setBounds(420, 390, 150, 50); // 위치와 크기 설정
+        easyButton.setOpaque(false); // 배경 투명 설정
         add(easyButton);
 
         ButtonGroup group = new ButtonGroup();
@@ -107,7 +110,7 @@ public class RoomSettingPanel extends JPanel{
         yesBtn.setFont(customFont.deriveFont(25f));
         yesBtn.setForeground(Color.BLACK); // 폰트 색상 설정
         yesBtn.setPreferredSize(new Dimension(220, 65));
-        yesBtn.setBounds(100, 500, 220, 65); // 위치와 크기 설정
+        yesBtn.setBounds(420, 500, 220, 65); // 위치와 크기 설정
         add(yesBtn);
 
         // No button
@@ -115,13 +118,17 @@ public class RoomSettingPanel extends JPanel{
         noBtn.setFont(customFont.deriveFont(25f));
         noBtn.setForeground(Color.BLACK); // 폰트 색상 설정
         noBtn.setPreferredSize(new Dimension(220, 65));
-        noBtn.setBounds(350, 500, 220, 65); // 위치와 크기 설정
+        noBtn.setBounds(650, 500, 220, 65); // 위치와 크기 설정
         add(noBtn);
 
         // 둥근 모서리 반투명 패널 추가
         RoundedPanel roundedPanel = new RoundedPanel(20, 20);
-        roundedPanel.setBounds(50, 150, 600, 450); // 위치와 크기 설정
+        roundedPanel.setBounds(380, 200, 600, 100); // 위치와 크기 설정
         add(roundedPanel);
+
+        RoundedPanel roundedPanel2 = new RoundedPanel(20, 20);
+        roundedPanel2.setBounds(380, 320, 600, 150); // 위치와 크기 설정
+        add(roundedPanel2);
 
         // 방 제목 입력 길이를 10자로 제한함
         roomTextField.addKeyListener(new KeyAdapter() {
