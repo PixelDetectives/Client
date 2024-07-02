@@ -105,13 +105,22 @@ public class RoomSettingPanel extends JPanel{
 //        JPanel buttonPanel = new JPanel(new FlowLayout());
 //        Font ynBtnFont = new Font("Malgun Gothic", Font.BOLD, 25);
 
+        // RGB로 지정된 색상
+        Color backgroundColor1 = new Color(37, 46, 145); // White
+        Color textColor1 = new Color(255, 255, 255); // Black
+
         // Yes button
         yesBtn = new JButton("방만들기");
         yesBtn.setFont(customFont.deriveFont(25f));
         yesBtn.setForeground(Color.BLACK); // 폰트 색상 설정
         yesBtn.setPreferredSize(new Dimension(220, 65));
         yesBtn.setBounds(420, 500, 220, 65); // 위치와 크기 설정
+        yesBtn.setUI(new RoundedButtonUI(backgroundColor1, textColor1, 25));
         add(yesBtn);
+
+        // RGB로 지정된 색상
+        Color backgroundColor2 = new Color(149, 156, 210); // White
+        Color textColor2 = new Color(255, 255, 255); // Black
 
         // No button
         noBtn = new JButton("취소");
@@ -119,15 +128,16 @@ public class RoomSettingPanel extends JPanel{
         noBtn.setForeground(Color.BLACK); // 폰트 색상 설정
         noBtn.setPreferredSize(new Dimension(220, 65));
         noBtn.setBounds(650, 500, 220, 65); // 위치와 크기 설정
+        noBtn.setUI(new RoundedButtonUI(backgroundColor2, textColor2, 25));
         add(noBtn);
 
         // 둥근 모서리 반투명 패널 추가
         RoundedPanel roundedPanel = new RoundedPanel(20, 20);
-        roundedPanel.setBounds(380, 200, 600, 100); // 위치와 크기 설정
+        roundedPanel.setBounds(340, 200, 600, 100); // 위치와 크기 설정
         add(roundedPanel);
 
         RoundedPanel roundedPanel2 = new RoundedPanel(20, 20);
-        roundedPanel2.setBounds(380, 320, 600, 150); // 위치와 크기 설정
+        roundedPanel2.setBounds(340, 320, 600, 150); // 위치와 크기 설정
         add(roundedPanel2);
 
         // 방 제목 입력 길이를 10자로 제한함
